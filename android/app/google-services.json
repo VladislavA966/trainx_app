@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "567189349177",
+    "project_id": "trainxapp-a1ad0",
+    "storage_bucket": "trainxapp-a1ad0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567189349177:android:7aa56814c2eb1042d4bee8",
+        "android_client_info": {
+          "package_name": "com.example.trainx_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBws9bTATHVe4OEMAmcCDyKK1aaMMuhzrc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

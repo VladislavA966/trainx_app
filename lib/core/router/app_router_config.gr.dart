@@ -1,0 +1,217 @@
+// dart format width=80
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// **************************************************************************
+// AutoRouterGenerator
+// **************************************************************************
+
+// ignore_for_file: type=lint
+// coverage:ignore-file
+
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:auto_route/auto_route.dart' as _i10;
+import 'package:flutter/material.dart' as _i11;
+import 'package:trainx_app/features/exercises/exercises_screen.dart' as _i2;
+import 'package:trainx_app/features/home/home_page.dart' as _i3;
+import 'package:trainx_app/features/profile/profile_screen.dart' as _i4;
+import 'package:trainx_app/features/utils/utils_screen.dart' as _i5;
+import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart'
+    as _i12;
+import 'package:trainx_app/features/workouts/presentation/screens/all_workouts_screen.dart'
+    as _i1;
+import 'package:trainx_app/features/workouts/presentation/screens/workout_details_screen.dart'
+    as _i6;
+import 'package:trainx_app/features/workouts/presentation/screens/workout_types_screen.dart'
+    as _i7;
+import 'package:trainx_app/features/workouts/presentation/screens/workouts_filter_screen.dart'
+    as _i8;
+import 'package:trainx_app/features/workouts/presentation/screens/workouts_page.dart'
+    as _i9;
+
+/// generated route for
+/// [_i1.AllWorkoutsScreen]
+class AllWorkoutsRoute extends _i10.PageRouteInfo<AllWorkoutsRouteArgs> {
+  AllWorkoutsRoute({
+    _i11.Key? key,
+    _i12.WorkoutType? type,
+    List<_i10.PageRouteInfo>? children,
+  }) : super(
+         AllWorkoutsRoute.name,
+         args: AllWorkoutsRouteArgs(key: key, type: type),
+         initialChildren: children,
+       );
+
+  static const String name = 'AllWorkoutsRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<AllWorkoutsRouteArgs>(
+        orElse: () => const AllWorkoutsRouteArgs(),
+      );
+      return _i1.AllWorkoutsScreen(key: args.key, type: args.type);
+    },
+  );
+}
+
+class AllWorkoutsRouteArgs {
+  const AllWorkoutsRouteArgs({this.key, this.type});
+
+  final _i11.Key? key;
+
+  final _i12.WorkoutType? type;
+
+  @override
+  String toString() {
+    return 'AllWorkoutsRouteArgs{key: $key, type: $type}';
+  }
+}
+
+/// generated route for
+/// [_i2.ExercisesScreen]
+class ExercisesRoute extends _i10.PageRouteInfo<void> {
+  const ExercisesRoute({List<_i10.PageRouteInfo>? children})
+    : super(ExercisesRoute.name, initialChildren: children);
+
+  static const String name = 'ExercisesRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      return const _i2.ExercisesScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i3.HomePage]
+class HomeRoute extends _i10.PageRouteInfo<void> {
+  const HomeRoute({List<_i10.PageRouteInfo>? children})
+    : super(HomeRoute.name, initialChildren: children);
+
+  static const String name = 'HomeRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      return const _i3.HomePage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i4.ProfileScreen]
+class ProfileRoute extends _i10.PageRouteInfo<void> {
+  const ProfileRoute({List<_i10.PageRouteInfo>? children})
+    : super(ProfileRoute.name, initialChildren: children);
+
+  static const String name = 'ProfileRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      return const _i4.ProfileScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i5.UtilsScreen]
+class UtilsRoute extends _i10.PageRouteInfo<void> {
+  const UtilsRoute({List<_i10.PageRouteInfo>? children})
+    : super(UtilsRoute.name, initialChildren: children);
+
+  static const String name = 'UtilsRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      return const _i5.UtilsScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i6.WorkoutDetailsScreen]
+class WorkoutDetailsRoute extends _i10.PageRouteInfo<WorkoutDetailsRouteArgs> {
+  WorkoutDetailsRoute({
+    required String workoutId,
+    _i11.Key? key,
+    List<_i10.PageRouteInfo>? children,
+  }) : super(
+         WorkoutDetailsRoute.name,
+         args: WorkoutDetailsRouteArgs(workoutId: workoutId, key: key),
+         initialChildren: children,
+       );
+
+  static const String name = 'WorkoutDetailsRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<WorkoutDetailsRouteArgs>();
+      return _i6.WorkoutDetailsScreen(workoutId: args.workoutId, key: args.key);
+    },
+  );
+}
+
+class WorkoutDetailsRouteArgs {
+  const WorkoutDetailsRouteArgs({required this.workoutId, this.key});
+
+  final String workoutId;
+
+  final _i11.Key? key;
+
+  @override
+  String toString() {
+    return 'WorkoutDetailsRouteArgs{workoutId: $workoutId, key: $key}';
+  }
+}
+
+/// generated route for
+/// [_i7.WorkoutTypesScreen]
+class WorkoutTypesRoute extends _i10.PageRouteInfo<void> {
+  const WorkoutTypesRoute({List<_i10.PageRouteInfo>? children})
+    : super(WorkoutTypesRoute.name, initialChildren: children);
+
+  static const String name = 'WorkoutTypesRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      return const _i7.WorkoutTypesScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i8.WorkoutsFilterScreen]
+class WorkoutsFilterRoute extends _i10.PageRouteInfo<void> {
+  const WorkoutsFilterRoute({List<_i10.PageRouteInfo>? children})
+    : super(WorkoutsFilterRoute.name, initialChildren: children);
+
+  static const String name = 'WorkoutsFilterRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      return const _i8.WorkoutsFilterScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i9.WorkoutsPage]
+class WorkoutsRoute extends _i10.PageRouteInfo<void> {
+  const WorkoutsRoute({List<_i10.PageRouteInfo>? children})
+    : super(WorkoutsRoute.name, initialChildren: children);
+
+  static const String name = 'WorkoutsRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      return const _i9.WorkoutsPage();
+    },
+  );
+}

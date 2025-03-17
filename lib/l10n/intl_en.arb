@@ -1,0 +1,13 @@
+{
+  "@@locale": "en",
+  "workouts": "Тренировки",
+  "exercises": "Упражнения",
+  "widgets": "Инструменты",
+  "profile": "Профиль",
+  "allWorkouts": "Все тренировки",
+  "filters": "Фильтры",
+  "swimming": "Плавание",
+  "cycling": "Велосипед",
+  "running": "Бег",
+  "workoutDetails": "Детали тренировки"
+}
