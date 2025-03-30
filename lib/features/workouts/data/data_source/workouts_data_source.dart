@@ -5,17 +5,16 @@ import 'package:trainx_app/features/workouts/data/models/workout_model/workout_m
 const workoutCollection = 'workouts';
 
 abstract class WorkoutsDataSource {
-  Future<List<WorkoutModel>> fetchWorkouts({
-    String? type,
-    String? level,
-  });
+  Future<List<WorkoutModel>> fetchWorkouts({String? type, String? level});
   Future<WorkoutModel?> fetchWorkoutDetails(String workoutId);
 }
 
 @Singleton(as: WorkoutsDataSource)
 class FireBaseWorkoutsDataSource implements WorkoutsDataSource {
-  final _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
 
+  FireBaseWorkoutsDataSource({required FirebaseFirestore firestore})
+      : _firestore = firestore;
   @override
   Future<List<WorkoutModel>> fetchWorkouts(
       {String? type, String? level}) async {

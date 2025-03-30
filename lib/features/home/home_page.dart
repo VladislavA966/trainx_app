@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
         WorkoutTypesRoute(),
         ExercisesRoute(),
         UtilsRoute(),
-        ProfileRoute(),
+        ProfileRouteContainerRoute(),
       ],
       builder: (context, child) => Scaffold(
         body: child,

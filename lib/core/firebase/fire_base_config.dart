@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:trainx_app/core/firebase/firebase_options.dart';
@@ -19,23 +20,9 @@ abstract class FirebaseModule {
     }
   }
 
-  // @lazySingleton
-  // FirebaseAdminApp get firebaseAdmin {
-  //   final privateKey = Platform.environment['FIREBASE_PRIVATE_KEY'];
-  //   if (privateKey == null) {
-  //     throw Exception('FIREBASE_PRIVATE_KEY не установлен!');
-  //   }
-  //   return FirebaseAdminApp.initializeApp(
-  //     firebaseProjectId,
-  //     Credential.fromServiceAccountParams(
-  //       clientId: firebaseClientId,
-  //       email: firebaseClientEmail,
-  //       privateKey: privateKey.replaceAll(r'\n', '\n'),
-  //     ),
-  //   );
-  // }
+  @lazySingleton
+  FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
 
   @lazySingleton
-  FirebaseAuth firebaseAuth(FirebaseApp app) =>
-      FirebaseAuth.instanceFor(app: app);
+  FirebaseFirestore get firebaseFirestore => FirebaseFirestore.instance;
 }

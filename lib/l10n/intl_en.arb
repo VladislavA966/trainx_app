@@ -9,5 +9,11 @@
   "swimming": "Плавание",
   "cycling": "Велосипед",
   "running": "Бег",
-  "workoutDetails": "Детали тренировки"
+  "workoutDetails": "Детали тренировки",
+  "selectSportType": "Выберите вид спорта",
+  "hrZones": "Пульсовые зоны",
+  "metronome": "Метроном",
+  "calcDistPeace": "Калькулятор: дистанция/темп",
+  "calcPeaceSpeed": "Калькулятор: темп/скорость",
+  "coach": "тренер"
 }

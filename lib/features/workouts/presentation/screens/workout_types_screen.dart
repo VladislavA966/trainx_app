@@ -71,10 +71,12 @@ class WorkoutTypesScreen extends StatelessWidget {
 
 class AppButton extends StatelessWidget {
   final String title;
-  final VoidCallback onPressed;
+  final void Function()? onPressed;
+  final bool? isLoading;
   const AppButton({
     required this.title,
     required this.onPressed,
+    this.isLoading,
     super.key,
   });
 
@@ -83,10 +85,12 @@ class AppButton extends StatelessWidget {
     return SizedBox(
       height: 52,
       width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        child: Text(title),
-      ),
+      child: isLoading != null && isLoading!
+          ? const CircularProgressIndicator()
+          : ElevatedButton(
+              onPressed: onPressed,
+              child: Text(title),
+            ),
     );
   }
 }

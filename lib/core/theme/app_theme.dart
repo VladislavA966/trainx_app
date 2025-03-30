@@ -18,6 +18,7 @@ class AppTheme {
       elevatedButtonTheme: AppComponentsTheme.elevatedButtonTheme,
       bottomSheetTheme: AppComponentsTheme.bottomSheetTheme,
       iconTheme: AppComponentsTheme.iconDataTheme,
+      inputDecorationTheme: AppComponentsTheme.inputDecorationTheme,
     );
   }
 }

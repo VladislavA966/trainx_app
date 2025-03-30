@@ -114,6 +114,51 @@ class S {
       args: [],
     );
   }
+
+  /// `Выберите вид спорта`
+  String get selectSportType {
+    return Intl.message(
+      'Выберите вид спорта',
+      name: 'selectSportType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Пульсовые зоны`
+  String get hrZones {
+    return Intl.message('Пульсовые зоны', name: 'hrZones', desc: '', args: []);
+  }
+
+  /// `Метроном`
+  String get metronome {
+    return Intl.message('Метроном', name: 'metronome', desc: '', args: []);
+  }
+
+  /// `Калькулятор: дистанция/темп`
+  String get calcDistPeace {
+    return Intl.message(
+      'Калькулятор: дистанция/темп',
+      name: 'calcDistPeace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Калькулятор: темп/скорость`
+  String get calcPeaceSpeed {
+    return Intl.message(
+      'Калькулятор: темп/скорость',
+      name: 'calcPeaceSpeed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `тренер`
+  String get coach {
+    return Intl.message('тренер', name: 'coach', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

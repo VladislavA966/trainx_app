@@ -23,11 +23,23 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "allWorkouts": MessageLookupByLibrary.simpleMessage("Все тренировки"),
+    "calcDistPeace": MessageLookupByLibrary.simpleMessage(
+      "Калькулятор: дистанция/темп",
+    ),
+    "calcPeaceSpeed": MessageLookupByLibrary.simpleMessage(
+      "Калькулятор: темп/скорость",
+    ),
+    "coach": MessageLookupByLibrary.simpleMessage("тренер"),
     "cycling": MessageLookupByLibrary.simpleMessage("Велосипед"),
     "exercises": MessageLookupByLibrary.simpleMessage("Упражнения"),
     "filters": MessageLookupByLibrary.simpleMessage("Фильтры"),
+    "hrZones": MessageLookupByLibrary.simpleMessage("Пульсовые зоны"),
+    "metronome": MessageLookupByLibrary.simpleMessage("Метроном"),
     "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
     "running": MessageLookupByLibrary.simpleMessage("Бег"),
+    "selectSportType": MessageLookupByLibrary.simpleMessage(
+      "Выберите вид спорта",
+    ),
     "swimming": MessageLookupByLibrary.simpleMessage("Плавание"),
     "widgets": MessageLookupByLibrary.simpleMessage("Инструменты"),
     "workoutDetails": MessageLookupByLibrary.simpleMessage("Детали тренировки"),

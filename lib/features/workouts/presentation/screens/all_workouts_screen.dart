@@ -12,10 +12,7 @@ import 'package:trainx_app/features/workouts/presentation/cubit/workouts/workout
 @RoutePage()
 class AllWorkoutsScreen extends StatefulWidget {
   final WorkoutType? type;
-  const AllWorkoutsScreen({
-    super.key,
-    this.type,
-  });
+  const AllWorkoutsScreen({super.key, this.type});
 
   @override
   State<AllWorkoutsScreen> createState() => _AllWorkoutsScreenState();

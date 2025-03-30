@@ -40,12 +40,24 @@ class AppComponentsTheme {
   );
 
   static BottomSheetThemeData bottomSheetTheme = const BottomSheetThemeData(
-    backgroundColor: AppColors.black,
+    backgroundColor: AppColors.greyDark,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(Dimensions.unit2),
+      ),
     ),
   );
 
   static IconThemeData iconDataTheme =
       const IconThemeData(color: AppColors.primary);
+
+  static InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
+    filled: true,
+    fillColor: AppColors.greyDark,
+    labelStyle: TextStyle(color: AppColors.greyLight),
+    suffixIconColor: AppColors.greyLight,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(Dimensions.unit2),
+    ),
+  );
 }

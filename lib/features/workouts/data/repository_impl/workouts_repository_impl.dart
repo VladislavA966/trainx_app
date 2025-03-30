@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:trainx_app/core/utils/errors_handler.dart';
@@ -16,6 +17,10 @@ class WorkoutsRepositoryImpl implements WorkoutsRepository {
   @override
   Future<Either<Failure, List<WorkoutEntity>>> getWorkouts(
       {String? level, String? type}) async {
+    final result = await Connectivity().checkConnectivity();
+    if (result == [ConnectivityResult.none]) {
+      return Left(NetworkFailure());
+    }
     try {
       final workouts =
           await _workoutsDataSource.fetchWorkouts(level: level, type: type);
@@ -28,6 +33,10 @@ class WorkoutsRepositoryImpl implements WorkoutsRepository {
   @override
   Future<Either<Failure, WorkoutEntity>> fetchWorkoutDetails(
       String workoutId) async {
+    final result = await Connectivity().checkConnectivity();
+    if (result == [ConnectivityResult.none]) {
+      return Left(NetworkFailure());
+    }
     try {
       final workout = await _workoutsDataSource.fetchWorkoutDetails(workoutId);
 
