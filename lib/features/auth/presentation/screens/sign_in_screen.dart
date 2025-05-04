@@ -59,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen> with ValidationMixin {
                 inputAction: TextInputAction.next,
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: true,
-                validator: validatePassword,
+                // validator: validatePassword,
               ),
               const SizedBox(height: Dimensions.unit2),
               AppTextFormField(

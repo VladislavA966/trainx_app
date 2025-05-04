@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -116,7 +115,6 @@ class _AllWorkoutsScreenState extends State<AllWorkoutsScreen> {
         separatorBuilder: (context, index) => SizedBox(height: Dimensions.unit),
         itemBuilder: (context, index) {
           final workout = state.workouts[index];
-          log(workout.toString());
           return WorkoutCard(
             title: workout.title,
             duration: workout.duration,

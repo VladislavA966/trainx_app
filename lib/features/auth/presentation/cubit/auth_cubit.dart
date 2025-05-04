@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -44,8 +46,12 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> checkUserAuth() async {
     final result = await _authRepository.checkUserAuth();
+    log('Auth check result: $result');
+
     if (result) {
-      emit(AuthLoaded());
+      emit(const AuthLoaded());
+    } else {
+      emit(AuthInitial());
     }
   }
 }

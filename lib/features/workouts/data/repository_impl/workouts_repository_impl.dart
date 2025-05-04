@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -26,6 +28,7 @@ class WorkoutsRepositoryImpl implements WorkoutsRepository {
           await _workoutsDataSource.fetchWorkouts(level: level, type: type);
       return Right(workouts.map((workout) => workout.toEntity()).toList());
     } catch (e) {
+      log(e.toString());
       return Left(FirestoreFailure(e.toString()));
     }
   }

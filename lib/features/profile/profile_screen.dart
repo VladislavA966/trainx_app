@@ -14,6 +14,9 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -26,7 +29,7 @@ class ProfileScreen extends StatelessWidget {
               title: 'asdasdasd',
               onPressed: () {
                 context.read<AuthCubit>().logOut();
-                context.pushRoute(LogInRoute());
+                context.router.replace(const LogInRoute());
               },
             ),
           ],

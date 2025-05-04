@@ -14,39 +14,34 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
+    return AutoTabsScaffold(
       routes: [
         WorkoutTypesRoute(),
-        ExercisesRoute(),
-        UtilsRoute(),
+        AllExercisesRoute(),
+        AllUtilsRoute(),
         ProfileRouteContainerRoute(),
       ],
-      builder: (context, child) => Scaffold(
-        body: child,
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: AutoTabsRouter.of(context).activeIndex,
-          onTap: (index) {
-            AutoTabsRouter.of(context).setActiveIndex(index);
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: S.of(context).workouts,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.pool),
-              label: S.of(context).exercises,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.widgets),
-              label: S.of(context).widgets,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              label: S.of(context).profile,
-            ),
-          ],
-        ),
+      bottomNavigationBuilder: (context, tabsRouter) => BottomNavigationBar(
+        currentIndex: tabsRouter.activeIndex,
+        onTap: tabsRouter.setActiveIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: S.of(context).workouts,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.pool),
+            label: S.of(context).exercises,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.widgets),
+            label: S.of(context).widgets,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: S.of(context).profile,
+          ),
+        ],
       ),
     );
   }

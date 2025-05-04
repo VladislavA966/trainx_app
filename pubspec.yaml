@@ -70,6 +70,8 @@ dependencies:
 
   #UI
   font_awesome_flutter: ^10.8.0
+  youtube_player_flutter: ^9.1.1
+  audioplayers: ^6.4.0
 
 dev_dependencies:
   flutter_test:
@@ -97,6 +99,8 @@ flutter:
   assets:
      - assets/images/
      - assets/svg/
+     - assets/sounds/
+
 
 
 

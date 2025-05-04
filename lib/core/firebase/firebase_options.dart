@@ -46,7 +46,7 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
+  static const  web = FirebaseOptions(
     apiKey: 'AIzaSyCTjiFYZbVLkV2QKWMJTCLX5DH-dxFEskQ',
     appId: '1:567189349177:web:69eea7ce3265f048d4bee8',
     messagingSenderId: '567189349177',
@@ -56,7 +56,7 @@ class DefaultFirebaseOptions {
     measurementId: 'G-MJRLP09SHH',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
+  static const  android = FirebaseOptions(
     apiKey: 'AIzaSyBws9bTATHVe4OEMAmcCDyKK1aaMMuhzrc',
     appId: '1:567189349177:android:7aa56814c2eb1042d4bee8',
     messagingSenderId: '567189349177',
@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'trainxapp-a1ad0.firebasestorage.app',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
+  static const  ios = FirebaseOptions(
     apiKey: 'AIzaSyAfRqdLEUY1uyAn10T0XiaMlBaJBgv6I3c',
     appId: '1:567189349177:ios:7d047092bb9b5e3ad4bee8',
     messagingSenderId: '567189349177',

@@ -10,7 +10,9 @@ class WorkoutsCubit extends Cubit<WorkoutsState> {
   WorkoutsCubit(this._repository) : super(WorkoutsInitial());
 
   Future<void> fetchWorkouts({String? type, String? level}) async {
-    emit(WorkoutsLoading());
+    if (state is! WorkoutsLoading) {
+      emit(WorkoutsLoading());
+    }
     final result = await _repository.getWorkouts(level: level, type: type);
     result.fold(
       (failure) => emit(WorkoutsError(message: failure.message)),

@@ -39,10 +39,30 @@ class AppRouter extends RootStackRouter {
             AutoRoute(
               page: ExercisesRoute.page,
               path: 'exercises',
+              children: [
+                AutoRoute(
+                  page: AllExercisesRoute.page,
+                  path: 'all-exercises',
+                ),
+                AutoRoute(
+                  page: ExerciseDetailsRoute.page,
+                  path: 'exercise-details',
+                ),
+              ],
             ),
             AutoRoute(
               page: UtilsRoute.page,
               path: 'utils',
+              children: [
+                AutoRoute(
+                  page: AllUtilsRoute.page,
+                  path: 'all-utils',
+                ),
+                AutoRoute(
+                  page: MetronomeRoute.page,
+                  path: 'metronome',
+                ),
+              ],
             ),
             AutoRoute(
               page: ProfileRouteContainerRoute.page,

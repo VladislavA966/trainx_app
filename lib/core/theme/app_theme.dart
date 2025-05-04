@@ -4,7 +4,7 @@ import 'package:trainx_app/core/theme/app_fonts_theme.dart';
 import 'package:trainx_app/core/theme/app_widgets_theme.dart';
 
 class AppTheme {
-  static ThemeData get lightTheme {
+  static ThemeData get darkTheme {
     return ThemeData(
       primaryColor: AppColors.primary,
       secondaryHeaderColor: AppColors.greyDark,

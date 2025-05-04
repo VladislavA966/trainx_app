@@ -8,22 +8,36 @@ import 'package:trainx_app/features/auth/presentation/cubit/auth_cubit.dart';
 
 import 'generated/l10n.dart';
 
-class TrainXApp extends StatelessWidget {
+class TrainXApp extends StatefulWidget {
   const TrainXApp({super.key});
 
   @override
+  State<TrainXApp> createState() => _TrainXAppState();
+}
+
+class _TrainXAppState extends State<TrainXApp> {
+  late final AppRouter _appRouter;
+  late final _authCubit = inject<AuthCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+    _authCubit.checkUserAuth();
+    _appRouter = AppRouter(inject());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final appRouter = AppRouter(inject());
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(
-          value: inject<AuthCubit>()..checkUserAuth(),
+          value: inject<AuthCubit>(),
         ),
       ],
       child: BlocBuilder<AuthCubit, AuthState>(
         builder: (context, state) {
           return MaterialApp.router(
-            theme: AppTheme.lightTheme,
+            theme: AppTheme.darkTheme,
             localizationsDelegates: [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -31,7 +45,7 @@ class TrainXApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: S.delegate.supportedLocales,
-            routerConfig: appRouter.config(),
+            routerConfig: _appRouter.config(),
           );
         },
       ),

@@ -5,6 +5,7 @@ import 'package:trainx_app/core/recources/dimensions.dart';
 class AppComponentsTheme {
   static AppBarTheme appBarTheme = AppBarTheme(
     backgroundColor: AppColors.greyDark,
+    elevation: 0,
     iconTheme: const IconThemeData(color: AppColors.primary),
     titleTextStyle: const TextStyle(
       fontFamily: 'Josefin Sans',

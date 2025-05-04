@@ -1,0 +1,2 @@
+/Users/vladislavafonin/flutter projects/trainx_app/android/app/.cxx/Debug/6l4ld3x1/x86_64/CMakeFiles/edit_cache.dir
+/Users/vladislavafonin/flutter projects/trainx_app/android/app/.cxx/Debug/6l4ld3x1/x86_64/CMakeFiles/rebuild_cache.dir
