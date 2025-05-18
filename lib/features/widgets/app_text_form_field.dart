@@ -11,6 +11,7 @@ class AppTextFormField extends StatelessWidget {
   final void Function(String)? onChanged;
   final List<TextInputFormatter>? inputFormatter;
   final void Function()? onTap;
+  final VoidCallback? onSuffixPressed;
   final bool readOnly;
 
   const AppTextFormField({
@@ -24,6 +25,7 @@ class AppTextFormField extends StatelessWidget {
     this.inputFormatter,
     this.onTap,
     this.readOnly = false,
+    this.onSuffixPressed,
     super.key,
   });
 
@@ -49,7 +51,7 @@ class AppTextFormField extends StatelessWidget {
             suffixIcon: value.text.isEmpty
                 ? null
                 : IconButton(
-                    onPressed: () => controller.clear(),
+                    onPressed: onSuffixPressed ?? () => controller.clear(),
                     icon: Icon(Icons.clear),
                   ),
           ),

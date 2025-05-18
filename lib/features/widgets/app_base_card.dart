@@ -5,11 +5,13 @@ class AppBaseCard extends StatelessWidget {
   final Widget? child;
   final double? height;
   final double? wight;
+  final EdgeInsets? padding;
   const AppBaseCard({
     super.key,
     this.child,
     this.wight,
     this.height,
+    this.padding = const EdgeInsets.all(Dimensions.unit2),
   });
 
   @override
@@ -18,7 +20,7 @@ class AppBaseCard extends StatelessWidget {
     return Container(
       height: height,
       width: wight ?? double.infinity,
-      padding: const EdgeInsets.all(Dimensions.unit2),
+      padding: padding,
       decoration: BoxDecoration(
         color: theme.secondaryHeaderColor,
         borderRadius: BorderRadius.circular(Dimensions.unit2),

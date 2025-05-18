@@ -82,7 +82,6 @@ class _PaceSpeedScreenState extends State<PaceSpeedScreen> {
               labelText: 'Темп (мин:сек на км)',
               keyboardType: TextInputType.number,
               inputFormatter: [
-                // FilteringTextInputFormatter.allow(RegExp(r'\d{0,2}:?\d{0,2}')),
                 MinutesSecondsFormatter(),
               ],
             ),
