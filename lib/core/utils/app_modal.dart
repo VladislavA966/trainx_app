@@ -149,10 +149,14 @@ mixin AppModal {
     BuildContext context, {
     required int selectedMinutes,
     required int selectedSeconds,
+    required ValueChanged<int> onSelectedMinutes,
+    required ValueChanged<int> onSelectedSeconds,
     VoidCallback? onReady,
     VoidCallback? onCancel,
   }) {
     final theme = Theme.of(context);
+    int min = selectedMinutes;
+    int sec = selectedSeconds;
 
     showMaterialModal(
       context,
@@ -188,9 +192,9 @@ mixin AppModal {
               Row(
                 children: [
                   AppCupertinoPicker(
-                    onSelectedItemChanged: (value) {},
+                    onSelectedItemChanged: (value) => min = value,
                     children: List.generate(
-                      60,
+                      12,
                       (i) => Text(
                         '${i.toString().padLeft(2, '0')} мин',
                         style: theme.textTheme.titleLarge
@@ -199,7 +203,7 @@ mixin AppModal {
                     ),
                   ),
                   AppCupertinoPicker(
-                    onSelectedItemChanged: (value) {},
+                    onSelectedItemChanged: (value) => sec = value,
                     children: List.generate(
                       60,
                       (i) => Text(
@@ -231,6 +235,8 @@ mixin AppModal {
                       ),
                     ),
                     onPressed: () {
+                      onSelectedMinutes(min);
+                      onSelectedSeconds(sec);
                       onReady?.call();
                       context.pop();
                     },

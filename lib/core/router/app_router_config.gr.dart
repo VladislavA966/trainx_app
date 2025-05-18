@@ -21,12 +21,12 @@ import 'package:trainx_app/features/exercises/exercise_details_screen.dart'
 import 'package:trainx_app/features/exercises/exercises_page.dart' as _i6;
 import 'package:trainx_app/features/home/home_page.dart' as _i7;
 import 'package:trainx_app/features/profile/profile_screen.dart' as _i11;
-import 'package:trainx_app/features/utils/distance_peace_calculator_screen.dart'
+import 'package:trainx_app/features/utils/presentation/screens/distance_peace_calculator_screen.dart'
     as _i4;
-import 'package:trainx_app/features/utils/metronome_screen.dart' as _i9;
-import 'package:trainx_app/features/utils/peace_to_speed_calcilator_screen.dart'
+import 'package:trainx_app/features/utils/presentation/screens/metronome_screen.dart' as _i9;
+import 'package:trainx_app/features/utils/presentation/screens/peace_to_speed_calcilator_screen.dart'
     as _i10;
-import 'package:trainx_app/features/utils/utils_screen.dart' as _i2;
+import 'package:trainx_app/features/utils/presentation/screens/utils_screen.dart' as _i2;
 import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart'
     as _i19;
 import 'package:trainx_app/features/workouts/presentation/screens/all_workouts_screen.dart'

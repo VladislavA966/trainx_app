@@ -4,9 +4,10 @@ import 'package:trainx_app/core/recources/dimensions.dart';
 import 'package:trainx_app/core/router/app_router_config.gr.dart';
 import 'package:trainx_app/core/utils/app_modal.dart';
 import 'package:trainx_app/features/utils/domain/entity/util_card_data.dart';
-import 'package:trainx_app/features/utils/widgets/utils_card_widget.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
 import 'package:trainx_app/generated/l10n.dart';
+
+import '../widgets/utils_card_widget.dart';
 
 @RoutePage()
 class UtilsScreen extends AutoRouter {
