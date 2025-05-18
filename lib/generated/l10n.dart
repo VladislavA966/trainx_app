@@ -159,6 +159,66 @@ class S {
   String get coach {
     return Intl.message('тренер', name: 'coach', desc: '', args: []);
   }
+
+  /// `Выберите дистанцию`
+  String get select_distance {
+    return Intl.message(
+      'Выберите дистанцию',
+      name: 'select_distance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Время`
+  String get common_time {
+    return Intl.message('Время', name: 'common_time', desc: '', args: []);
+  }
+
+  /// `Что вы хотите ввести:`
+  String get common_input_question {
+    return Intl.message(
+      'Что вы хотите ввести:',
+      name: 'common_input_question',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Темп`
+  String get common_pace {
+    return Intl.message('Темп', name: 'common_pace', desc: '', args: []);
+  }
+
+  /// `Введите время (чч:мм:сс)`
+  String get input_time_hh_mm_ss {
+    return Intl.message(
+      'Введите время (чч:мм:сс)',
+      name: 'input_time_hh_mm_ss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Введите темп (мин/км)`
+  String get input_running_pace {
+    return Intl.message(
+      'Введите темп (мин/км)',
+      name: 'input_running_pace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Расчитать`
+  String get common_calculate {
+    return Intl.message(
+      'Расчитать',
+      name: 'common_calculate',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

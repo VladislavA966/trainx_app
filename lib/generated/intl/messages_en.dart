@@ -30,15 +30,30 @@ class MessageLookup extends MessageLookupByLibrary {
       "Калькулятор: темп/скорость",
     ),
     "coach": MessageLookupByLibrary.simpleMessage("тренер"),
+    "common_calculate": MessageLookupByLibrary.simpleMessage("Расчитать"),
+    "common_input_question": MessageLookupByLibrary.simpleMessage(
+      "Что вы хотите ввести:",
+    ),
+    "common_pace": MessageLookupByLibrary.simpleMessage("Темп"),
+    "common_time": MessageLookupByLibrary.simpleMessage("Время"),
     "cycling": MessageLookupByLibrary.simpleMessage("Велосипед"),
     "exercises": MessageLookupByLibrary.simpleMessage("Упражнения"),
     "filters": MessageLookupByLibrary.simpleMessage("Фильтры"),
     "hrZones": MessageLookupByLibrary.simpleMessage("Пульсовые зоны"),
+    "input_running_pace": MessageLookupByLibrary.simpleMessage(
+      "Введите темп (мин/км)",
+    ),
+    "input_time_hh_mm_ss": MessageLookupByLibrary.simpleMessage(
+      "Введите время (чч:мм:сс)",
+    ),
     "metronome": MessageLookupByLibrary.simpleMessage("Метроном"),
     "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
     "running": MessageLookupByLibrary.simpleMessage("Бег"),
     "selectSportType": MessageLookupByLibrary.simpleMessage(
       "Выберите вид спорта",
+    ),
+    "select_distance": MessageLookupByLibrary.simpleMessage(
+      "Выберите дистанцию",
     ),
     "swimming": MessageLookupByLibrary.simpleMessage("Плавание"),
     "widgets": MessageLookupByLibrary.simpleMessage("Инструменты"),

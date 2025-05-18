@@ -112,7 +112,7 @@ class _LogInScreenState extends State<LogInScreen> with ValidationMixin {
         backgroundColor: Colors.red,
       ));
     } else if (state is AuthLoaded) {
-      context.router.replace(ProfileRoute());
+      context.pop(3);
     }
   }
 }

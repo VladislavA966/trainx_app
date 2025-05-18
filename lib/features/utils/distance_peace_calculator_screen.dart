@@ -8,6 +8,7 @@ import 'package:trainx_app/features/widgets/app_text_form_field.dart';
 import 'package:trainx_app/features/widgets/keyboard_dismiss_wrapper.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
 import 'package:trainx_app/features/workouts/presentation/screens/workout_types_screen.dart';
+import 'package:trainx_app/generated/l10n.dart';
 
 import 'peace_to_speed_calcilator_screen.dart';
 
@@ -98,14 +99,14 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AppTextFormField(
-          labelText: 'Выберите дистанцию',
+          labelText: S.of(context).select_distance,
           controller: _distanceController,
           readOnly: true,
           onSuffixPressed: _onDistanceSuffixPressed,
           onTap: () {
             showListSelectModal<LabeledValue>(
               context,
-              title: 'Выберите дистанцию',
+              title: S.of(context).select_distance,
               values: distances,
               titleBuilder: (item) => item.title,
               onSelect: (value) {
@@ -117,21 +118,21 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
           },
         ),
         const SizedBox(height: 16),
-        const Text('Что вы хотите ввести:'),
+        Text(S.of(context).common_input_question),
         ValueListenableBuilder(
           valueListenable: entireTime,
           builder: (context, value, child) => Wrap(
             spacing: 8,
             children: [
               ChoiceChip(
-                label: const Text('Время'),
+                label: Text(S.of(context).common_time),
                 selected: entireTime.value,
                 selectedColor: AppColors.primary,
                 disabledColor: AppColors.greyLight,
                 onSelected: (_) => _onCheapChanged(true),
               ),
               ChoiceChip(
-                label: const Text('Темп'),
+                label: Text(S.of(context).common_pace),
                 selected: !entireTime.value,
                 selectedColor: AppColors.primary,
                 disabledColor: AppColors.greyLight,
@@ -144,6 +145,14 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
         ValueListenableBuilder(
           valueListenable: entireTime,
           builder: (context, value, child) => AppTextFormField(
+            readOnly: true,
+            onTap: () {
+              showPacePicker(
+                context,
+                selectedMinutes: 0,
+                selectedSeconds: 0,
+              );
+            },
             onSuffixPressed: _onSecondFieldSuffixPressed,
             controller: entireTime.value ? _timeController : _paceController,
             keyboardType: TextInputType.number,
@@ -151,13 +160,13 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
                 ? [TimeTextInputFormatter()]
                 : [MinutesSecondsFormatter()],
             labelText: entireTime.value
-                ? 'Введите время (чч:мм:сс)'
-                : 'Введите темп (мин/км)',
+                ? S.of(context).input_time_hh_mm_ss
+                : S.of(context).input_running_pace,
           ),
         ),
         const SizedBox(height: 24),
         AppButton(
-          title: 'Расчитать',
+          title: S.of(context).common_calculate,
           onPressed: () {
             if (entireTime.value) {
               _calculatePace();
@@ -191,7 +200,6 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
     _timeController.clear();
     _paceController.clear();
     calculatedValue.value = '';
-    entireTime.value = true;
   }
 
   void _onDistanceSuffixPressed() {

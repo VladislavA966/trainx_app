@@ -34,13 +34,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           return BottomNavigationBar(
             currentIndex: tabsRouter.activeIndex,
-            onTap: (index) {
-              if (index == 3 && state is AuthUnauthorized) {
-                context.router.push(const LogInRoute());
-              } else {
-                tabsRouter.setActiveIndex(index);
-              }
-            },
+            onTap: (index) => _onTap(index, state, tabsRouter),
             items: [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
@@ -63,5 +57,19 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
+  }
+
+  void _onTap(int index, AuthState state, TabsRouter tabsRouter) {
+    if (index == 3 && state is AuthUnauthorized) {
+      context.router.push(const LogInRoute()).then(
+        (result) {
+          if (result != null) {
+            tabsRouter.setActiveIndex(3);
+          }
+        },
+      );
+    } else {
+      tabsRouter.setActiveIndex(index);
+    }
   }
 }
