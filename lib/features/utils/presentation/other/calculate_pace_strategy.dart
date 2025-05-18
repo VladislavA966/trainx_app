@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 abstract class CalculatePaceStrategy {
-  String calculatePace();
+  String calculatePace({
+    required double distance,
+    required int hours,
+    required int minutes,
+    required int seconds,
+  });
   String? calculateTime({
     required double distance,
     required int minutes,
@@ -9,13 +14,7 @@ abstract class CalculatePaceStrategy {
   });
 }
 
-class CalculateRunningPaceStrategy implements CalculatePaceStrategy {
-  @override
-  String calculatePace() {
-    // TODO: implement calculatePace
-    throw UnimplementedError();
-  }
-
+class RunningPaceStrategy implements CalculatePaceStrategy {
   @override
   String? calculateTime({
     required double distance,
@@ -40,5 +39,60 @@ class CalculateRunningPaceStrategy implements CalculatePaceStrategy {
       debugPrint('Ошибка расчета времени: $e');
       return null;
     }
+  }
+
+  @override
+  String calculatePace(
+      {required double distance,
+      required int hours,
+      required int minutes,
+      required int seconds}) {
+    // TODO: implement calculatePace
+    throw UnimplementedError();
+  }
+}
+
+class BikePaceStrategy implements CalculatePaceStrategy {
+  @override
+  String calculatePace(
+      {required double distance,
+      required int hours,
+      required int minutes,
+      required int seconds}) {
+    // TODO: implement calculatePace
+    throw UnimplementedError();
+  }
+
+  @override
+  String? calculateTime({
+    required double distance,
+    required int minutes,
+    required int seconds,
+  }) {
+    // TODO: implement calculateTime
+    throw UnimplementedError();
+  }
+}
+
+class SwimmingPaceStrategy implements CalculatePaceStrategy {
+  @override
+  String calculatePace({
+    required double distance,
+    required int hours,
+    required int minutes,
+    required int seconds,
+  }) {
+    // TODO: implement calculatePace
+    throw UnimplementedError();
+  }
+
+  @override
+  String? calculateTime({
+    required double distance,
+    required int minutes,
+    required int seconds,
+  }) {
+    // TODO: implement calculateTime
+    throw UnimplementedError();
   }
 }

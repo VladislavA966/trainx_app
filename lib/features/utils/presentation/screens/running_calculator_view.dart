@@ -1,7 +1,4 @@
-import 'dart:developer' show log;
-
 import 'package:flutter/material.dart';
-import 'package:trainx_app/core/recources/app_colors.dart';
 import 'package:trainx_app/core/utils/app_modal.dart';
 import 'package:trainx_app/features/utils/domain/entity/labled_value.dart';
 import 'package:trainx_app/features/utils/presentation/other/calculate_pace_strategy.dart';
@@ -18,9 +15,9 @@ class RunCalculatorView extends StatefulWidget {
 }
 
 class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
-  late final CalculateRunningPaceStrategy _strategy;
+  late final RunningPaceStrategy _strategy;
 
-  final distances = [
+  static const distances = [
     LabeledValue(value: 5.0, title: '5 км'),
     LabeledValue(value: 10.0, title: '10 км'),
     LabeledValue(value: 21.1, title: '21.1 км'),
@@ -31,29 +28,38 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
   final _paceController = TextEditingController();
   final _distanceController = TextEditingController();
 
-  final selectedDistance = ValueNotifier<double?>(null);
-  final entireTime = ValueNotifier<bool>(true);
-  final calculatedValue = ValueNotifier<String>('');
-  final paceMinutes = ValueNotifier<int>(0);
-  final paceSeconds = ValueNotifier<int>(0);
+  final _calculatorState = _CalculatorState();
 
   @override
   void initState() {
     super.initState();
-    _strategy = CalculateRunningPaceStrategy();
+    _strategy = RunningPaceStrategy();
+
+    _timeController.addListener(_onTimeChanged);
+    _paceController.addListener(_onPaceChanged);
   }
 
   @override
   void dispose() {
+    _timeController.removeListener(_onTimeChanged);
+    _paceController.removeListener(_onPaceChanged);
+    _distanceController.dispose();
+    _calculatorState.dispose();
     _timeController.dispose();
     _paceController.dispose();
-    _distanceController.dispose();
-    paceMinutes.dispose();
-    paceSeconds.dispose();
-    calculatedValue.dispose();
-    entireTime.dispose();
-    selectedDistance.dispose();
     super.dispose();
+  }
+
+  void _onTimeChanged() {
+    if (_timeController.text.isEmpty) {
+      _calculatorState.calculatedValue.value = '';
+    }
+  }
+
+  void _onPaceChanged() {
+    if (_paceController.text.isEmpty) {
+      _calculatorState.calculatedValue.value = '';
+    }
   }
 
   @override
@@ -61,136 +67,178 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppTextFormField(
-          labelText: S.of(context).select_distance,
-          controller: _distanceController,
-          readOnly: true,
-          onSuffixPressed: _onDistanceSuffixPressed,
-          onTap: () {
-            showListSelectModal<LabeledValue>(
-              context,
-              title: S.of(context).select_distance,
-              values: distances,
-              titleBuilder: (item) => item.title,
-              onSelect: (value) {
-                selectedDistance.value = value.value;
-                _distanceController.text = value.title;
-                calculatedValue.value = '';
-              },
-            );
-          },
-        ),
+        _buildDistanceField(),
         const SizedBox(height: 16),
         Text(S.of(context).common_input_question),
-        ValueListenableBuilder(
-          valueListenable: entireTime,
-          builder: (context, value, child) => Wrap(
-            spacing: 8,
-            children: [
-              //TODO вытаскивать цвета из темы
-              ChoiceChip(
-                label: Text(S.of(context).common_time),
-                selected: entireTime.value,
-                selectedColor: AppColors.primary,
-                disabledColor: AppColors.greyLight,
-                onSelected: (_) => _onCheapChanged(true),
-              ),
-              ChoiceChip(
-                label: Text(S.of(context).common_pace),
-                selected: !entireTime.value,
-                selectedColor: AppColors.primary,
-                disabledColor: AppColors.greyLight,
-                onSelected: (_) => _onCheapChanged(false),
-              ),
-            ],
-          ),
-        ),
+        _buildInputTypeSelector(),
         const SizedBox(height: 16),
-        ValueListenableBuilder(
-          valueListenable: entireTime,
-          builder: (context, value, child) => AppTextFormField(
-            readOnly: true,
-            onTap: () {
-              showPacePicker(
-                context,
-                selectedMinutes: paceMinutes.value,
-                selectedSeconds: paceSeconds.value,
-                onSelectedMinutes: (min) => paceMinutes.value = min,
-                onSelectedSeconds: (sec) => paceSeconds.value = sec,
-                onReady: () {
-                  final formatted =
-                      '${paceMinutes.value.toString().padLeft(2, '0')}:${paceSeconds.value.toString().padLeft(2, '0')}';
-                  _paceController.text = formatted;
-                },
-              );
-            },
-            onSuffixPressed: _onSecondFieldSuffixPressed,
-            controller: entireTime.value ? _timeController : _paceController,
-            keyboardType: TextInputType.number,
-            labelText: entireTime.value
-                ? S.of(context).input_time_hh_mm_ss
-                : S.of(context).input_running_pace,
-          ),
-        ),
+        _buildInputField(),
         const SizedBox(height: 24),
-        AppButton(
-          title: S.of(context).common_calculate,
-          onPressed: () {
-            if (entireTime.value) {
-              _calculatePace();
-            } else {
-              _calculateTimeFromPace();
-            }
-          },
-        ),
+        _buildCalculateButton(),
         const SizedBox(height: 24),
-        ValueListenableBuilder<String>(
-          valueListenable: calculatedValue,
-          builder: (context, value, _) {
-            if (value.isEmpty) return const SizedBox.shrink();
-            return AppResultBox.fromText(calculatedValue.value);
-          },
-        )
+        _buildResultBox(),
       ],
     );
   }
 
-  void _onCheapChanged(bool value) {
-    entireTime.value = value;
-    _timeController.clear();
-    _paceController.clear();
-    calculatedValue.value = '';
+  Widget _buildDistanceField() {
+    return AppTextFormField(
+      labelText: S.of(context).select_distance,
+      controller: _distanceController,
+      readOnly: true,
+      onSuffixPressed: _onDistanceSuffixPressed,
+      onTap: _showDistanceModal,
+    );
+  }
+
+  Widget _buildInputTypeSelector() {
+    return ValueListenableBuilder(
+      valueListenable: _calculatorState.entireTime,
+      builder: (context, value, _) => Wrap(
+        spacing: 8,
+        children: [
+          ChoiceChip(
+            label: Text(S.of(context).common_time),
+            selected: value,
+            selectedColor: Theme.of(context).primaryColor,
+            onSelected: (_) => _onInputTypeChanged(true),
+          ),
+          ChoiceChip(
+            label: Text(S.of(context).common_pace),
+            selected: !value,
+            selectedColor: Theme.of(context).primaryColor,
+            onSelected: (_) => _onInputTypeChanged(false),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInputField() {
+    return ValueListenableBuilder(
+      valueListenable: _calculatorState.entireTime,
+      builder: (context, isTimeInput, _) => AppTextFormField(
+        readOnly: true,
+        onTap: _showPacePicker,
+        onSuffixPressed: _onSecondFieldSuffixPressed,
+        controller: isTimeInput ? _timeController : _paceController,
+        keyboardType: TextInputType.number,
+        labelText: isTimeInput
+            ? S.of(context).input_time_hh_mm_ss
+            : S.of(context).input_running_pace,
+      ),
+    );
+  }
+
+  Widget _buildCalculateButton() {
+    return AppButton(
+      title: S.of(context).common_calculate,
+      onPressed: _onCalculatePressed,
+    );
+  }
+
+  Widget _buildResultBox() {
+    return ValueListenableBuilder<String>(
+      valueListenable: _calculatorState.calculatedValue,
+      builder: (context, value, _) {
+        if (value.isEmpty) return const SizedBox.shrink();
+        return AppResultBox.fromText(value);
+      },
+    );
+  }
+
+  void _onCalculatePressed() {
+    if (_calculatorState.entireTime.value) {
+      _calculatePaceFromTime();
+    } else {
+      _calculateTimeFromPace();
+    }
+  }
+
+  void _showDistanceModal() {
+    showListSelectModal<LabeledValue>(
+      context,
+      title: S.of(context).select_distance,
+      values: distances,
+      titleBuilder: (item) => item.title,
+      onSelect: (value) {
+        _calculatorState.selectedDistance.value = value.value;
+        _distanceController.text = value.title;
+        _calculatorState.calculatedValue.value = '';
+      },
+    );
+  }
+
+  void _showPacePicker() {
+    showPacePicker(
+      context,
+      selectedMinutes: _calculatorState.paceMinutes.value,
+      selectedSeconds: _calculatorState.paceSeconds.value,
+      onSelectedMinutes: (min) => _calculatorState.paceMinutes.value = min,
+      onSelectedSeconds: (sec) => _calculatorState.paceSeconds.value = sec,
+      onReady: () {
+        final formatted =
+            '${_calculatorState.paceMinutes.value.toString().padLeft(2, '0')}:${_calculatorState.paceSeconds.value.toString().padLeft(2, '0')}';
+        _paceController.text = formatted;
+      },
+    );
+  }
+
+  void _onInputTypeChanged(bool isTimeInput) {
+    _calculatorState.entireTime.value = isTimeInput;
+    _resetInputs();
   }
 
   void _onSecondFieldSuffixPressed() {
-    _timeController.clear();
-    _paceController.clear();
-    paceMinutes.value = 0;
-    paceSeconds.value = 0;
-    calculatedValue.value = '';
+    _resetInputs();
   }
 
   void _onDistanceSuffixPressed() {
     _distanceController.clear();
-    selectedDistance.value = null;
-    calculatedValue.value = '';
+    _calculatorState.selectedDistance.value = null;
+    _calculatorState.calculatedValue.value = '';
   }
 
-  void _calculatePace() {
-    log(_distanceController.text);
+  void _resetInputs() {
+    _timeController.clear();
+    _paceController.clear();
+    _calculatorState.paceMinutes.value = 0;
+    _calculatorState.paceSeconds.value = 0;
+    _calculatorState.calculatedValue.value = '';
+  }
+
+  void _calculatePaceFromTime() {
+    if (_calculatorState.selectedDistance.value == null) return;
+    // TODO: Implement pace calculation from time
   }
 
   void _calculateTimeFromPace() {
-    if (selectedDistance.value == null) return;
+    if (_calculatorState.selectedDistance.value == null) return;
 
     final result = _strategy.calculateTime(
-      distance: selectedDistance.value!,
-      minutes: paceMinutes.value,
-      seconds: paceSeconds.value,
+      distance: _calculatorState.selectedDistance.value!,
+      minutes: _calculatorState.paceMinutes.value,
+      seconds: _calculatorState.paceSeconds.value,
     );
 
     if (result != null) {
-      calculatedValue.value = result;
+      _calculatorState.calculatedValue.value = result;
     }
+  }
+}
+
+class _CalculatorState {
+  final selectedDistance = ValueNotifier<double?>(null);
+  final entireTime = ValueNotifier<bool>(true);
+  final calculatedValue = ValueNotifier<String>('');
+  final paceMinutes = ValueNotifier<int>(0);
+  final paceSeconds = ValueNotifier<int>(0);
+
+  void dispose() {
+    selectedDistance.dispose();
+    entireTime.dispose();
+    calculatedValue.dispose();
+    paceMinutes.dispose();
+    paceSeconds.dispose();
   }
 }

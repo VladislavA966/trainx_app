@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trainx_app/features/widgets/app_base_card.dart';
 
+import '../../../../core/recources/export.dart';
+
 class AppResultBox extends StatelessWidget {
   final String title;
   final String value;
@@ -21,7 +23,7 @@ class AppResultBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBaseCard(
-      padding: const EdgeInsets.all(0),
+      padding: const EdgeInsets.symmetric(vertical: Dimensions.unit),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

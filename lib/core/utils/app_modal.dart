@@ -193,6 +193,7 @@ mixin AppModal {
                 children: [
                   AppCupertinoPicker(
                     onSelectedItemChanged: (value) => min = value,
+                    selectedValue: selectedMinutes,
                     children: List.generate(
                       12,
                       (i) => Text(
@@ -204,6 +205,7 @@ mixin AppModal {
                   ),
                   AppCupertinoPicker(
                     onSelectedItemChanged: (value) => sec = value,
+                    selectedValue: selectedSeconds,
                     children: List.generate(
                       60,
                       (i) => Text(
@@ -252,7 +254,7 @@ mixin AppModal {
 }
 
 class AppCupertinoPicker extends StatelessWidget {
-  final int selectedMinutes;
+  final int selectedValue;
   final Function(int value)? onSelectedItemChanged;
   final List<Widget> children;
 
@@ -260,7 +262,7 @@ class AppCupertinoPicker extends StatelessWidget {
     super.key,
     required this.children,
     required this.onSelectedItemChanged,
-    this.selectedMinutes = 0,
+    this.selectedValue = 0,
   });
 
   @override
@@ -270,7 +272,7 @@ class AppCupertinoPicker extends StatelessWidget {
         height: 150,
         child: CupertinoPicker(
           scrollController:
-              FixedExtentScrollController(initialItem: selectedMinutes),
+              FixedExtentScrollController(initialItem: selectedValue),
           itemExtent: 32,
           looping: true,
           onSelectedItemChanged: onSelectedItemChanged,
