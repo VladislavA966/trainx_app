@@ -40,18 +40,19 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await _authRepository.logOut();
     result.fold(
       (failure) => emit(AuthError(message: failure.message)),
-      (_) => emit(AuthInitial()),
+      (_) => emit(AuthUnauthorized()),
     );
   }
 
   Future<void> checkUserAuth() async {
+    emit(const AuthLoading());
     final result = await _authRepository.checkUserAuth();
-    log('Auth check result: $result');
-
     if (result) {
       emit(const AuthLoaded());
+      log('user is authenticated');
     } else {
-      emit(AuthInitial());
+      emit(const AuthUnauthorized());
+      log('user is not authenticated');
     }
   }
 }

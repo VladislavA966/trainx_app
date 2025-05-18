@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainx_app/core/di/inject.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
 import 'package:trainx_app/core/router/app_router_config.gr.dart';
+import 'package:trainx_app/features/workouts/domain/entity/workout_entity.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_type_params.dart';
-import 'package:trainx_app/features/workouts/presentation/cubit/workouts/workouts_cubit.dart';
+import 'package:trainx_app/features/workouts/presentation/bloc/workouts_bloc.dart';
+import 'package:trainx_app/features/workouts/presentation/widgets/workout_card.dart';
 
 @RoutePage()
 class AllWorkoutsScreen extends StatefulWidget {
@@ -24,34 +26,36 @@ class _AllWorkoutsScreenState extends State<AllWorkoutsScreen> {
     final theme = Theme.of(context);
     final params = paramsFromWorkoutType(widget.type);
     return BlocProvider(
-      create: (context) =>
-          WorkoutsCubit(inject())..fetchWorkouts(type: widget.type?.name),
+      create: (context) => WorkoutsBloc(inject())
+        ..add(WorkoutsEvent.fetchWorkouts(type: widget.type?.name)),
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
             _buildAppBar(expandedHeight, context, params, theme),
-            BlocConsumer<WorkoutsCubit, WorkoutsState>(
-              listener: (context, state) => _listener(state, context),
+            BlocConsumer<WorkoutsBloc, WorkoutsState>(
+              listener: (context, state) {},
               builder: (context, state) {
-                if (state is WorkoutsLoading) {
+                if (state.isLoading) {
                   return _buildLoadingState();
-                } else if (state is WorkoutsLoaded) {
-                  if (state.workouts.isEmpty) {
-                    return SliverToBoxAdapter(
-                      child: Center(
-                        child: Text(
-                          'Нет доступных тренировок',
-                          style: theme.textTheme.bodyLarge,
-                        ),
-                      ),
-                    );
-                  }
-                  return _buildLoadedWorkoutsList(state);
                 }
-                return const SliverToBoxAdapter();
+                if (state.dataState.workouts.isEmpty) {
+                  return _buildEmptyWorkoutsState(theme);
+                }
+                return _buildLoadedWorkoutsList(state.dataState);
               },
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _buildEmptyWorkoutsState(ThemeData theme) {
+    return SliverToBoxAdapter(
+      child: Center(
+        child: Text(
+          'Нет доступных тренировок',
+          style: theme.textTheme.bodyLarge,
         ),
       ),
     );
@@ -83,10 +87,7 @@ class _AllWorkoutsScreenState extends State<AllWorkoutsScreen> {
               kToolbarHeight + MediaQuery.of(context).padding.top + 10;
           return FlexibleSpaceBar(
             title: collapsed
-                ? Text(
-                    params.title(context),
-                    style: theme.appBarTheme.titleTextStyle,
-                  )
+                ? Text(params.title, style: theme.appBarTheme.titleTextStyle)
                 : null,
             background: Image.asset(
               params.image,
@@ -99,34 +100,28 @@ class _AllWorkoutsScreenState extends State<AllWorkoutsScreen> {
     );
   }
 
-  void _listener(WorkoutsState state, BuildContext context) {
-    if (state is WorkoutsError) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(state.message)),
-      );
-    }
-  }
-
-  SliverPadding _buildLoadedWorkoutsList(WorkoutsLoaded state) {
+  SliverPadding _buildLoadedWorkoutsList(WorkoutsStateModel state) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(vertical: Dimensions.unit2),
+      padding: EdgeInsets.all(Dimensions.unit1_5),
       sliver: SliverList.separated(
         itemCount: state.workouts.length,
         separatorBuilder: (context, index) => SizedBox(height: Dimensions.unit),
-        itemBuilder: (context, index) {
-          final workout = state.workouts[index];
-          return WorkoutCard(
-            title: workout.title,
-            duration: workout.duration,
-            volume: workout.volume,
-            level: workout.level,
-            workoutType: workout.type,
-            onTap: () {
-              context.pushRoute(WorkoutDetailsRoute(workoutId: workout.id));
-            },
-          );
-        },
+        itemBuilder: (context, index) =>
+            _buildWorkoutCard(state.workouts[index]),
       ),
+    );
+  }
+
+  WorkoutCard _buildWorkoutCard(WorkoutEntity workout) {
+    return WorkoutCard(
+      title: workout.title,
+      duration: workout.duration,
+      volume: workout.volume,
+      level: workout.level,
+      workoutType: workout.type,
+      onTap: () {
+        context.pushRoute(WorkoutDetailsRoute(workoutId: workout.id));
+      },
     );
   }
 
@@ -136,141 +131,6 @@ class _AllWorkoutsScreenState extends State<AllWorkoutsScreen> {
         padding: const EdgeInsets.only(top: Dimensions.unit4),
         child: Center(child: CircularProgressIndicator()),
       ),
-    );
-  }
-}
-
-class WorkoutCard extends StatelessWidget {
-  final String title;
-  final String duration;
-  final String volume;
-  final String level;
-  final String workoutType;
-  final VoidCallback? onTap;
-
-  const WorkoutCard({
-    super.key,
-    required this.title,
-    required this.duration,
-    required this.volume,
-    required this.level,
-    required this.workoutType,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return GestureDetector(
-      onTap: onTap,
-      child: AppBaseCard(
-        height: 100,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold, color: theme.cardColor),
-                ),
-                const SizedBox(height: Dimensions.unit0_5),
-                Text(
-                  workoutType,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.primaryColor,
-                  ),
-                ),
-                const SizedBox(height: Dimensions.unit),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.timer,
-                      size: Dimensions.unit2,
-                      color: theme.primaryColor,
-                    ),
-                    const SizedBox(width: Dimensions.unit0_5),
-                    Text(
-                      duration,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.cardColor,
-                      ),
-                    ),
-                    const SizedBox(width: Dimensions.unit1_5),
-                    Icon(
-                      Icons.route,
-                      size: Dimensions.unit2,
-                      color: theme.primaryColor,
-                    ),
-                    const SizedBox(width: Dimensions.unit0_5),
-                    Text(
-                      volume,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.cardColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Dimensions.unit, vertical: Dimensions.unit0_5),
-              decoration: BoxDecoration(
-                color: theme.primaryColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(Dimensions.unit0_5),
-              ),
-              child: Text(
-                level,
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.primaryColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AppBaseCard extends StatelessWidget {
-  final Widget? child;
-  final double? height;
-  final double? wight;
-  const AppBaseCard({
-    super.key,
-    this.child,
-    this.wight,
-    this.height,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      height: height,
-      width: wight ?? double.infinity,
-      padding: const EdgeInsets.all(Dimensions.unit),
-      decoration: BoxDecoration(
-        color: theme.secondaryHeaderColor,
-        borderRadius: BorderRadius.circular(Dimensions.unit2),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: Dimensions.unit,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: child,
     );
   }
 }

@@ -81,4 +81,65 @@ mixin AppModal {
       ),
     );
   }
+
+  void showListSelectModal<T>(
+    BuildContext context, {
+    required List<T> values,
+    required String Function(T item) titleBuilder,
+    IconData? Function(T item)? iconBuilder,
+    required void Function(T value) onSelect,
+    String? title,
+  }) {
+    showMaterialModal(
+      context,
+      builder: (context) => Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Dimensions.unit1_5,
+          vertical: Dimensions.unit,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: Dimensions.unit),
+            if (title != null)
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      style:
+                          Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                color: Theme.of(context).cardColor,
+                              ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: context.pop,
+                    child: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+            const SizedBox(height: Dimensions.unit1_5),
+            ...values.map(
+              (item) => ListTile(
+                title: Text(
+                  titleBuilder(item),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                leading: iconBuilder != null
+                    ? Icon(iconBuilder(item),
+                        color: Theme.of(context).primaryColor)
+                    : null,
+                onTap: () {
+                  context.pop();
+                  onSelect(item);
+                },
+              ),
+            ),
+            const SizedBox(height: Dimensions.unit2),
+          ],
+        ),
+      ),
+    );
+  }
 }

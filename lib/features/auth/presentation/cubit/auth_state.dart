@@ -18,6 +18,10 @@ class AuthLoaded extends AuthState {
   const AuthLoaded() : super(isLoading: false);
 }
 
+class AuthUnauthorized extends AuthState {
+  const AuthUnauthorized() : super(isLoading: false);
+}
+
 class AuthError extends AuthState {
   final String message;
   const AuthError({required this.message}) : super(isLoading: false);

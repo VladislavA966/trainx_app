@@ -7,7 +7,11 @@ import 'app_router_config.gr.dart';
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AppRouter extends RootStackRouter {
   final AuthCubit authCubit;
-  AppRouter(this.authCubit);
+  late final AuthGuard authGuard;
+  AppRouter(this.authCubit) {
+    authGuard = AuthGuard(authCubit);
+  }
+
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
@@ -44,10 +48,6 @@ class AppRouter extends RootStackRouter {
                   page: AllExercisesRoute.page,
                   path: 'all-exercises',
                 ),
-                AutoRoute(
-                  page: ExerciseDetailsRoute.page,
-                  path: 'exercise-details',
-                ),
               ],
             ),
             AutoRoute(
@@ -62,29 +62,41 @@ class AppRouter extends RootStackRouter {
                   page: MetronomeRoute.page,
                   path: 'metronome',
                 ),
+                AutoRoute(
+                  page: PaceSpeedRoute.page,
+                  path: 'pace-speed_calculator',
+                ),
+                AutoRoute(
+                  page: DistancePaceCalculatorRoute.page,
+                  path: 'distance-pace-calculator',
+
+                ),
               ],
             ),
             AutoRoute(
-              page: ProfileRouteContainerRoute.page,
+              page: ProfileRoute.page,
               path: 'profile',
+              guards: [authGuard],
               children: [
                 AutoRoute(
-                  page: LogInRoute.page,
-                  path: 'log-in',
-                  initial: authCubit.state is! AuthLoaded,
-                ),
-                AutoRoute(
                   page: ProfileRoute.page,
-                  path: 'user-profile',
-                  initial: authCubit.state is AuthLoaded,
-                ),
-                AutoRoute(
-                  page: SignInRoute.page,
-                  path: 'sign-in',
+                  path: '',
                 ),
               ],
             ),
           ],
+        ),
+        AutoRoute(
+          page: LogInRoute.page,
+          path: '/log-in',
+        ),
+        AutoRoute(
+          page: SignInRoute.page,
+          path: '/sign-in',
+        ),
+        AutoRoute(
+          page: ExerciseDetailsRoute.page,
+          path: '/exercise-details',
         ),
       ];
 

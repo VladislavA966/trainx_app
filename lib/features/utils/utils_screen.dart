@@ -9,13 +9,8 @@ import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
 import 'package:trainx_app/generated/l10n.dart';
 
 @RoutePage()
-class UtilsScreen extends StatelessWidget {
+class UtilsScreen extends AutoRouter {
   const UtilsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AutoRouter();
-  }
 }
 
 @RoutePage()
@@ -29,26 +24,32 @@ class AllUtilsScreen extends StatefulWidget {
 class _AllUtilsScreenState extends State<AllUtilsScreen> with AppModal {
   late final cardsData = [
     UtilsCardData(
-      title: S.of(context).hrZones,
+      title: 'Зоны интенсивности',
       icon: Icons.favorite,
       onTap: _onPulseZonesTap,
     ),
     UtilsCardData(
       title: S.of(context).metronome,
       icon: Icons.access_alarm,
-      onTap: (_) {
-        context.pushRoute(const MetronomeRoute());
-      },
+      onTap: (_) => context.pushRoute(const MetronomeRoute()),
     ),
     UtilsCardData(
       title: S.of(context).calcDistPeace,
       icon: Icons.calculate,
-      onTap: (_) {},
+      onTap: (_) {
+        showEnumSelectModal(
+          context,
+          title: S.of(context).selectSportType,
+          values: WorkoutType.values,
+          onSelect: (type) =>
+              context.router.push(DistancePaceCalculatorRoute(sportType: type)),
+        );
+      },
     ),
     UtilsCardData(
       title: S.of(context).calcPeaceSpeed,
       icon: Icons.speed,
-      onTap: (_) {},
+      onTap: (_) => context.pushRoute(const PaceSpeedRoute()),
     ),
     UtilsCardData(
       title: 'AI ${S.of(context).coach}',

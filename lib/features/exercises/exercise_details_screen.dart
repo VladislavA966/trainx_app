@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:trainx_app/features/workouts/presentation/screens/all_workouts_screen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
+
+import '../widgets/app_base_card.dart';
 
 //TODO: Вынести локализацию
 //TODO: Полный рефакторинг
@@ -44,9 +45,7 @@ class _ExerciseDetailsScreenState extends State<ExerciseDetailsScreen> {
       builder: (context, player) => Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: const Text(
-            'Детали упражнения',
-          ),
+          title: const Text('Детали упражнения'),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
@@ -124,7 +123,7 @@ class _ExerciseInfoCard extends StatelessWidget {
     return AppBaseCard(
       height: 120,
       child: Padding(
-        padding: const EdgeInsets.all(Dimensions.unit2),
+        padding: const EdgeInsets.all(Dimensions.unit0_5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

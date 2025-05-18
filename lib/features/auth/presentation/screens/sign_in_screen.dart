@@ -6,8 +6,8 @@ import 'package:trainx_app/core/router/app_router_config.gr.dart';
 import 'package:trainx_app/core/utils/validation_mixin.dart';
 import 'package:trainx_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:trainx_app/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:trainx_app/features/profile/profile_screens_container.dart';
 import 'package:trainx_app/features/workouts/presentation/screens/workout_types_screen.dart';
+import 'package:trainx_app/features/widgets/export.dart';
 
 @RoutePage()
 class SignInScreen extends StatefulWidget {
@@ -25,9 +25,9 @@ class _SignInScreenState extends State<SignInScreen> with ValidationMixin {
 
   @override
   void dispose() {
-    super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    super.dispose();
     _confirmPasswordController.dispose();
   }
 
@@ -101,7 +101,7 @@ class _SignInScreenState extends State<SignInScreen> with ValidationMixin {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(state.message)));
     } else if (state is AuthLoaded) {
-      context.replaceRoute(ProfileRoute());
+      context.router.replace(ProfileRoute());
     }
   }
 

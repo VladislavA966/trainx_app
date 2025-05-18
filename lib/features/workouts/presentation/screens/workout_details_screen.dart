@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainx_app/core/di/inject.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
+import 'package:trainx_app/features/widgets/app_base_card.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_entity.dart';
-import 'package:trainx_app/features/workouts/presentation/cubit/workout_details/workout_details_cubit.dart';
-import 'package:trainx_app/features/workouts/presentation/screens/all_workouts_screen.dart';
+import 'package:trainx_app/features/workouts/presentation/bloc/workouts_bloc.dart';
+import 'package:trainx_app/features/workouts/presentation/widgets/workout_info_widget.dart';
 import 'package:trainx_app/generated/l10n.dart';
 
 @RoutePage()
@@ -24,8 +25,8 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          WorkoutDetailsCubit(inject())..fetchWorkoutDetails(widget.workoutId),
+      create: (context) => WorkoutsBloc(inject())
+        ..add(WorkoutsEvent.fetchWorkoutDetails(id: widget.workoutId)),
       child: Scaffold(
         appBar: AppBar(
           title: Text(S.of(context).workoutDetails),
@@ -35,13 +36,13 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
             Icon(Icons.favorite),
           ],
         ),
-        body: BlocConsumer<WorkoutDetailsCubit, WorkoutDetailsState>(
+        body: BlocConsumer<WorkoutsBloc, WorkoutsState>(
           listener: (context, state) {},
           builder: (context, state) {
-            if (state is WorkoutDetailsLoading) {
+            if (state.isLoading) {
               return Center(child: CircularProgressIndicator());
-            } else if (state is WorkoutDetailsLoaded) {
-              final workout = state.details;
+            } else if (state.dataState.workoutDetails != null) {
+              final workout = state.dataState.workoutDetails;
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -51,15 +52,17 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _DetailsTitle(title: workout.title),
+                      _DetailsTitle(title: workout?.title ?? ''),
                       const SizedBox(height: Dimensions.unit),
-                      WorkoutInfoCardWidget(workout: workout),
+                      WorkoutInfoCardWidget(
+                        workout: workout ?? WorkoutEntity.empty(),
+                      ),
                       const SizedBox(height: Dimensions.unit),
                       _DetailsTitle(title: 'Разминка'),
                       const SizedBox(height: Dimensions.unit),
                       AppBaseCard(
                         child: Text(
-                          workout.warmUp ?? '',
+                          workout?.warmUp ?? '',
                           style:
                               Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     color: Theme.of(context).canvasColor,
@@ -71,7 +74,7 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
                       const SizedBox(height: Dimensions.unit),
                       AppBaseCard(
                         child: Text(
-                          workout.mainSet ?? '',
+                          workout?.mainSet ?? '',
                           style:
                               Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     color: Theme.of(context).canvasColor,
@@ -83,7 +86,7 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
                       const SizedBox(height: Dimensions.unit),
                       AppBaseCard(
                         child: Text(
-                          workout.coolDown ?? '',
+                          workout?.coolDown ?? '',
                           style:
                               Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     color: Theme.of(context).canvasColor,
@@ -103,59 +106,6 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
   }
 }
 
-class WorkoutInfoCardWidget extends StatelessWidget {
-  const WorkoutInfoCardWidget({
-    super.key,
-    required this.workout,
-  });
-
-  final WorkoutEntity workout;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBaseCard(
-        height: 120,
-        child: Padding(
-          padding: const EdgeInsets.all(Dimensions.unit2),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                spacing: Dimensions.unit,
-                children: [
-                  _IconAndTitleRow(
-                    title: workout.duration,
-                    icon: Icons.timer,
-                  ),
-                  _IconAndTitleRow(
-                    title: workout.volume,
-                    icon: Icons.route,
-                  )
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                spacing: Dimensions.unit,
-                children: [
-                  _IconAndTitleRow(
-                    title: workout.level,
-                    icon: Icons.sports,
-                  ),
-                  _IconAndTitleRow(
-                    title: workout.type,
-                    icon: Icons.sports_gymnastics,
-                  )
-                ],
-              )
-            ],
-          ),
-        ));
-  }
-}
-
 class _DetailsTitle extends StatelessWidget {
   final String title;
   const _DetailsTitle({required this.title});
@@ -166,27 +116,6 @@ class _DetailsTitle extends StatelessWidget {
       title,
       style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontSize: 20),
       textAlign: TextAlign.start,
-    );
-  }
-}
-
-class _IconAndTitleRow extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  const _IconAndTitleRow({required this.title, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Row(
-      children: [
-        Icon(icon),
-        const SizedBox(width: Dimensions.unit),
-        Text(
-          title,
-          style: theme.textTheme.bodyLarge?.copyWith(color: theme.canvasColor),
-        ),
-      ],
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainx_app/core/router/app_router_config.gr.dart';
+import 'package:trainx_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:trainx_app/generated/l10n.dart';
 
 @RoutePage()
@@ -19,29 +21,46 @@ class _HomePageState extends State<HomePage> {
         WorkoutTypesRoute(),
         AllExercisesRoute(),
         AllUtilsRoute(),
-        ProfileRouteContainerRoute(),
+        ProfileRoute(),
       ],
-      bottomNavigationBuilder: (context, tabsRouter) => BottomNavigationBar(
-        currentIndex: tabsRouter.activeIndex,
-        onTap: tabsRouter.setActiveIndex,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: S.of(context).workouts,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pool),
-            label: S.of(context).exercises,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.widgets),
-            label: S.of(context).widgets,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: S.of(context).profile,
-          ),
-        ],
+      bottomNavigationBuilder: (context, tabsRouter) =>
+          BlocConsumer<AuthCubit, AuthState>(
+        listenWhen: (prevState, currentState) => prevState != currentState,
+        listener: (context, state) {
+          if (state is AuthUnauthorized) {
+            tabsRouter.setActiveIndex(0);
+          }
+        },
+        builder: (context, state) {
+          return BottomNavigationBar(
+            currentIndex: tabsRouter.activeIndex,
+            onTap: (index) {
+              if (index == 3 && state is AuthUnauthorized) {
+                context.router.push(const LogInRoute());
+              } else {
+                tabsRouter.setActiveIndex(index);
+              }
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: S.of(context).workouts,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.pool),
+                label: S.of(context).exercises,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.widgets),
+                label: S.of(context).widgets,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle),
+                label: S.of(context).profile,
+              ),
+            ],
+          );
+        },
       ),
     );
   }

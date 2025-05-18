@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
 import 'package:trainx_app/core/router/app_router_config.gr.dart';
-import 'package:trainx_app/features/workouts/presentation/screens/all_workouts_screen.dart';
+import 'package:trainx_app/features/widgets/app_base_card.dart';
 
 import '../workouts/domain/entity/workout_type.dart';
 
@@ -100,15 +101,21 @@ class ExerciseCardWidget extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  SizedBox(
-                    width: 120,
-                    height: 120,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(Dimensions.unit2_5),
-                      child: Image.network(
-                        _image,
-                        fit: BoxFit.cover,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(Dimensions.unit1_5),
+                    child: CachedNetworkImage(
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.unit1_5),
+                        ),
                       ),
+                      imageUrl: _image,
                     ),
                   ),
                   Icon(

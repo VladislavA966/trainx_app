@@ -6,8 +6,9 @@ import 'package:trainx_app/core/router/app_router_config.gr.dart';
 import 'package:trainx_app/core/utils/validation_mixin.dart';
 import 'package:trainx_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:trainx_app/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:trainx_app/features/profile/profile_screens_container.dart';
 import 'package:trainx_app/features/workouts/presentation/screens/workout_types_screen.dart';
+
+import 'package:trainx_app/features/widgets/export.dart';
 
 @RoutePage()
 class LogInScreen extends StatefulWidget {
@@ -111,7 +112,7 @@ class _LogInScreenState extends State<LogInScreen> with ValidationMixin {
         backgroundColor: Colors.red,
       ));
     } else if (state is AuthLoaded) {
-      context.replaceRoute(ProfileRoute());
+      context.router.replace(ProfileRoute());
     }
   }
 }

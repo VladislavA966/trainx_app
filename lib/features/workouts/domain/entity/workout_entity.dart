@@ -35,4 +35,18 @@ class WorkoutEntity extends Equatable {
         coolDown,
         mainSet,
       ];
+
+  static WorkoutEntity empty() {
+    return WorkoutEntity(
+      title: '',
+      type: '',
+      level: '',
+      duration: '',
+      volume: '',
+      id: '',
+      warmUp: '',
+      coolDown: '',
+      mainSet: '',
+    );
+  }
 }
