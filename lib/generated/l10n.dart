@@ -219,6 +219,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Отмена`
+  String get common_cancel {
+    return Intl.message('Отмена', name: 'common_cancel', desc: '', args: []);
+  }
+
+  /// `Готово`
+  String get common_ready {
+    return Intl.message('Готово', name: 'common_ready', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

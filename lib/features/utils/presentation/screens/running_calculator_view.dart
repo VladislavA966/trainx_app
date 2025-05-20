@@ -119,10 +119,9 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
       valueListenable: _calculatorState.entireTime,
       builder: (context, isTimeInput, _) => AppTextFormField(
         readOnly: true,
-        onTap: _showPacePicker,
+        onTap: isTimeInput ? _showSportTimePicker : _showPacePicker,
         onSuffixPressed: _onSecondFieldSuffixPressed,
         controller: isTimeInput ? _timeController : _paceController,
-        keyboardType: TextInputType.number,
         labelText: isTimeInput
             ? S.of(context).input_time_hh_mm_ss
             : S.of(context).input_running_pace,
@@ -169,9 +168,29 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
     );
   }
 
+  void _showSportTimePicker() {
+    showSportTimePicker(
+      context,
+      title: 'Введите время',
+      selectedHours: _calculatorState.timeHours.value,
+      selectedMinutes: _calculatorState.timeMinutes.value,
+      selectedSeconds: _calculatorState.timeSeconds.value,
+      onSelectedHours: (hour) => _calculatorState.timeHours.value = hour,
+      onSelectedMinutes: (min) => _calculatorState.timeMinutes.value = min,
+      onSelectedSeconds: (sec) => _calculatorState.timeSeconds.value = sec,
+      onReady: () {
+        print(
+            '${_calculatorState.timeHours.value}:${_calculatorState.timeMinutes.value}:${_calculatorState.timeSeconds.value}');
+        _timeController.text =
+            '${_calculatorState.timeHours.value.toString().padLeft(2, '0')}:${_calculatorState.timeMinutes.value.toString().padLeft(2, '0')}:${_calculatorState.timeSeconds.value.toString().padLeft(2, '0')}';
+      },
+    );
+  }
+
   void _showPacePicker() {
     showPacePicker(
       context,
+      title: 'Введите темп',
       selectedMinutes: _calculatorState.paceMinutes.value,
       selectedSeconds: _calculatorState.paceSeconds.value,
       onSelectedMinutes: (min) => _calculatorState.paceMinutes.value = min,
@@ -233,6 +252,9 @@ class _CalculatorState {
   final calculatedValue = ValueNotifier<String>('');
   final paceMinutes = ValueNotifier<int>(0);
   final paceSeconds = ValueNotifier<int>(0);
+  final timeHours = ValueNotifier<int>(0);
+  final timeMinutes = ValueNotifier<int>(0);
+  final timeSeconds = ValueNotifier<int>(0);
 
   void dispose() {
     selectedDistance.dispose();
@@ -240,5 +262,8 @@ class _CalculatorState {
     calculatedValue.dispose();
     paceMinutes.dispose();
     paceSeconds.dispose();
+    timeHours.dispose();
+    timeMinutes.dispose();
+    timeSeconds.dispose();
   }
 }

@@ -22,5 +22,7 @@
   "common_pace": "Темп",
   "input_time_hh_mm_ss": "Введите время (чч:мм:сс)",
   "input_running_pace": "Введите темп (мин/км)",
-  "common_calculate": "Расчитать"
+  "common_calculate": "Расчитать",
+  "common_cancel": "Отмена",
+  "common_ready": "Готово"
 }

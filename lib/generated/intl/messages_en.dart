@@ -31,10 +31,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "coach": MessageLookupByLibrary.simpleMessage("тренер"),
     "common_calculate": MessageLookupByLibrary.simpleMessage("Расчитать"),
+    "common_cancel": MessageLookupByLibrary.simpleMessage("Отмена"),
     "common_input_question": MessageLookupByLibrary.simpleMessage(
       "Что вы хотите ввести:",
     ),
     "common_pace": MessageLookupByLibrary.simpleMessage("Темп"),
+    "common_ready": MessageLookupByLibrary.simpleMessage("Готово"),
     "common_time": MessageLookupByLibrary.simpleMessage("Время"),
     "cycling": MessageLookupByLibrary.simpleMessage("Велосипед"),
     "exercises": MessageLookupByLibrary.simpleMessage("Упражнения"),

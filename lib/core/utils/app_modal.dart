@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trainx_app/core/recources/app_colors.dart';
 import 'package:trainx_app/core/utils/params_filter_type.dart';
+import 'package:trainx_app/generated/l10n.dart';
 import '../recources/dimensions.dart';
 
 mixin AppModal {
@@ -145,108 +146,184 @@ mixin AppModal {
     );
   }
 
+  //Time picker
+  void showSportTimePicker(
+    BuildContext context, {
+    required int selectedHours,
+    required int selectedMinutes,
+    required int selectedSeconds,
+    required String title,
+    required ValueChanged<int> onSelectedHours,
+    required ValueChanged<int> onSelectedMinutes,
+    required ValueChanged<int> onSelectedSeconds,
+    VoidCallback? onReady,
+    VoidCallback? onCancel,
+  }) {
+    int hours = 0;
+    int minutes = 0;
+    int seconds = 0;
+    showMaterialModal(
+      context,
+      builder: (context) => CommonCupertinoPickerSkeleton(
+        title: title,
+        onSelectedMinutes: onSelectedMinutes,
+        onSelectedSeconds: onSelectedSeconds,
+        onReady: () {
+          onSelectedHours(hours);
+          onSelectedMinutes(minutes);
+          onSelectedSeconds(seconds);
+          onReady?.call();
+        },
+        children: [
+          AppCupertinoPicker(
+            selectedValue: selectedHours,
+            onSelectedItemChanged: (value) => hours = value,
+            count: 12,
+            unit: 'чч',
+          ),
+          AppCupertinoPicker(
+            onSelectedItemChanged: (value) => minutes = value,
+            count: 60,
+            unit: 'мм',
+          ),
+          AppCupertinoPicker(
+            onSelectedItemChanged: (value) => seconds = value,
+            count: 60,
+            unit: 'сс',
+          ),
+        ],
+      ),
+    );
+  }
+
+  //Pace picker
   void showPacePicker(
     BuildContext context, {
     required int selectedMinutes,
     required int selectedSeconds,
     required ValueChanged<int> onSelectedMinutes,
     required ValueChanged<int> onSelectedSeconds,
+    required String? title,
     VoidCallback? onReady,
     VoidCallback? onCancel,
   }) {
-    final theme = Theme.of(context);
-    int min = selectedMinutes;
-    int sec = selectedSeconds;
-
+    int min = 0;
+    int sec = 0;
     showMaterialModal(
       context,
-      builder: (context) => Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Dimensions.unit1_5,
-          vertical: Dimensions.unit,
-        ),
-        child: SizedBox(
-          height: 250,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const SizedBox(height: Dimensions.unit),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Выберите темп',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium
-                          ?.copyWith(color: AppColors.primary),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: context.pop,
-                    child: const Icon(Icons.close, color: AppColors.greyLight),
-                  ),
-                ],
-              ),
-              const SizedBox(height: Dimensions.unit),
-              Row(
-                children: [
-                  AppCupertinoPicker(
-                    onSelectedItemChanged: (value) => min = value,
-                    selectedValue: selectedMinutes,
-                    children: List.generate(
-                      12,
-                      (i) => Text(
-                        '${i.toString().padLeft(2, '0')} мин',
-                        style: theme.textTheme.titleLarge
-                            ?.copyWith(color: AppColors.white),
-                      ),
-                    ),
-                  ),
-                  AppCupertinoPicker(
-                    onSelectedItemChanged: (value) => sec = value,
-                    selectedValue: selectedSeconds,
-                    children: List.generate(
-                      60,
-                      (i) => Text(
-                        '${i.toString().padLeft(2, '0')} сек',
-                        style: theme.textTheme.titleLarge
-                            ?.copyWith(color: AppColors.white),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  TextButton(
-                    onPressed: onCancel ?? context.pop,
-                    child: Text(
-                      'Отмена',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: AppColors.greyLight,
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  TextButton(
-                    child: Text(
-                      'Готово',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    onPressed: () {
-                      onSelectedMinutes(min);
-                      onSelectedSeconds(sec);
-                      onReady?.call();
-                      context.pop();
-                    },
-                  ),
-                ],
-              ),
-            ],
+      builder: (context) => CommonCupertinoPickerSkeleton(
+        title: title,
+        onCancel: onCancel,
+        onReady: () {
+          onSelectedMinutes(min);
+          onSelectedSeconds(sec);
+          onReady?.call();
+        },
+        onSelectedMinutes: onSelectedMinutes,
+        onSelectedSeconds: onSelectedSeconds,
+        children: [
+          AppCupertinoPicker(
+            onSelectedItemChanged: (value) => min = value,
+            selectedValue: selectedMinutes,
+            count: 12,
+            unit: 'мин',
           ),
+          AppCupertinoPicker(
+            onSelectedItemChanged: (value) => sec = value,
+            selectedValue: selectedSeconds,
+            count: 60,
+            unit: 'сек',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CommonCupertinoPickerSkeleton extends StatefulWidget {
+  final List<AppCupertinoPicker> children;
+  final ValueChanged<int> onSelectedMinutes;
+  final ValueChanged<int> onSelectedSeconds;
+  final String? title;
+  final VoidCallback? onReady;
+  final VoidCallback? onCancel;
+  const CommonCupertinoPickerSkeleton({
+    required this.children,
+    required this.onSelectedMinutes,
+    required this.onSelectedSeconds,
+    this.title,
+    super.key,
+    this.onReady,
+    this.onCancel,
+  });
+
+  @override
+  State<CommonCupertinoPickerSkeleton> createState() =>
+      _CommonCupertinoPickerSkeletonState();
+}
+
+class _CommonCupertinoPickerSkeletonState
+    extends State<CommonCupertinoPickerSkeleton> {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: Dimensions.unit1_5,
+        vertical: Dimensions.unit,
+      ),
+      child: SizedBox(
+        height: 260,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: Dimensions.unit),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    widget.title ?? '',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium
+                        ?.copyWith(color: AppColors.primary),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: context.pop,
+                  child: const Icon(Icons.close, color: AppColors.greyLight),
+                ),
+              ],
+            ),
+            const SizedBox(height: Dimensions.unit),
+            Row(children: widget.children),
+            Row(
+              children: [
+                TextButton(
+                  onPressed: widget.onCancel ?? context.pop,
+                  child: Text(
+                    S.of(context).common_cancel,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: AppColors.greyLight,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                TextButton(
+                  child: Text(
+                    S.of(context).common_ready,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  onPressed: () {
+                    widget.onReady?.call();
+                    context.pop();
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -256,17 +333,21 @@ mixin AppModal {
 class AppCupertinoPicker extends StatelessWidget {
   final int selectedValue;
   final Function(int value)? onSelectedItemChanged;
-  final List<Widget> children;
+  final int count;
+  final String? unit;
 
   const AppCupertinoPicker({
-    super.key,
-    required this.children,
     required this.onSelectedItemChanged,
+    required this.count,
+    required this.unit,
     this.selectedValue = 0,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Expanded(
       child: SizedBox(
         height: 150,
@@ -276,7 +357,14 @@ class AppCupertinoPicker extends StatelessWidget {
           itemExtent: 32,
           looping: true,
           onSelectedItemChanged: onSelectedItemChanged,
-          children: children,
+          children: List.generate(
+            count,
+            (i) => Text(
+              '${i.toString().padLeft(2, '0')} $unit',
+              style:
+                  theme.textTheme.titleLarge?.copyWith(color: AppColors.white),
+            ),
+          ),
         ),
       ),
     );
