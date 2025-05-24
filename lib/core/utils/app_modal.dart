@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trainx_app/core/recources/app_colors.dart';
 import 'package:trainx_app/core/utils/params_filter_type.dart';
+import 'package:trainx_app/features/widgets/app_picker_strategy/picker_config.dart';
 import 'package:trainx_app/generated/l10n.dart';
 import '../recources/dimensions.dart';
 
@@ -146,95 +147,21 @@ mixin AppModal {
     );
   }
 
-  //Time picker
-  void showSportTimePicker(
+  void showCustomPicker(
     BuildContext context, {
-    required int selectedHours,
-    required int selectedMinutes,
-    required int selectedSeconds,
-    required String title,
-    required ValueChanged<int> onSelectedHours,
-    required ValueChanged<int> onSelectedMinutes,
-    required ValueChanged<int> onSelectedSeconds,
-    VoidCallback? onReady,
+    required PickerConfig config,
     VoidCallback? onCancel,
   }) {
-    int hours = 0;
-    int minutes = 0;
-    int seconds = 0;
+    final initialValues = config.getInitialValues();
     showMaterialModal(
       context,
       builder: (context) => CommonCupertinoPickerSkeleton(
-        title: title,
-        onSelectedMinutes: onSelectedMinutes,
-        onSelectedSeconds: onSelectedSeconds,
-        onReady: () {
-          onSelectedHours(hours);
-          onSelectedMinutes(minutes);
-          onSelectedSeconds(seconds);
-          onReady?.call();
-        },
-        children: [
-          AppCupertinoPicker(
-            selectedValue: selectedHours,
-            onSelectedItemChanged: (value) => hours = value,
-            count: 12,
-            unit: 'чч',
-          ),
-          AppCupertinoPicker(
-            onSelectedItemChanged: (value) => minutes = value,
-            count: 60,
-            unit: 'мм',
-          ),
-          AppCupertinoPicker(
-            onSelectedItemChanged: (value) => seconds = value,
-            count: 60,
-            unit: 'сс',
-          ),
-        ],
-      ),
-    );
-  }
-
-  //Pace picker
-  void showPacePicker(
-    BuildContext context, {
-    required int selectedMinutes,
-    required int selectedSeconds,
-    required ValueChanged<int> onSelectedMinutes,
-    required ValueChanged<int> onSelectedSeconds,
-    required String? title,
-    VoidCallback? onReady,
-    VoidCallback? onCancel,
-  }) {
-    int min = 0;
-    int sec = 0;
-    showMaterialModal(
-      context,
-      builder: (context) => CommonCupertinoPickerSkeleton(
-        title: title,
+        title: config.title,
+        onReady: () => config.onReady(initialValues),
         onCancel: onCancel,
-        onReady: () {
-          onSelectedMinutes(min);
-          onSelectedSeconds(sec);
-          onReady?.call();
-        },
-        onSelectedMinutes: onSelectedMinutes,
-        onSelectedSeconds: onSelectedSeconds,
-        children: [
-          AppCupertinoPicker(
-            onSelectedItemChanged: (value) => min = value,
-            selectedValue: selectedMinutes,
-            count: 12,
-            unit: 'мин',
-          ),
-          AppCupertinoPicker(
-            onSelectedItemChanged: (value) => sec = value,
-            selectedValue: selectedSeconds,
-            count: 60,
-            unit: 'сек',
-          ),
-        ],
+        children: config.buildPickers(
+          onItemChanged: (index, value) => initialValues[index] = value,
+        ),
       ),
     );
   }
@@ -242,15 +169,11 @@ mixin AppModal {
 
 class CommonCupertinoPickerSkeleton extends StatefulWidget {
   final List<AppCupertinoPicker> children;
-  final ValueChanged<int> onSelectedMinutes;
-  final ValueChanged<int> onSelectedSeconds;
   final String? title;
   final VoidCallback? onReady;
   final VoidCallback? onCancel;
   const CommonCupertinoPickerSkeleton({
     required this.children,
-    required this.onSelectedMinutes,
-    required this.onSelectedSeconds,
     this.title,
     super.key,
     this.onReady,

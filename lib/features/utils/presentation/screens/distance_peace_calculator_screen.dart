@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:trainx_app/features/utils/presentation/screens/bike_calculator_view.dart';
-import 'package:trainx_app/features/utils/presentation/screens/running_calculator_view.dart';
+import 'package:trainx_app/features/utils/presentation/screens/running_calculator_view/running_calculator_view.dart';
 import 'package:trainx_app/features/utils/presentation/screens/swimming_calculator_view.dart';
 import 'package:trainx_app/features/widgets/keyboard_dismiss_wrapper.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';

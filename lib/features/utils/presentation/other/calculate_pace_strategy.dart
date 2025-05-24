@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class CalculatePaceStrategy {
-  String calculatePace({
+  String? calculatePace({
     required double distance,
     required int hours,
     required int minutes,
@@ -42,13 +42,27 @@ class RunningPaceStrategy implements CalculatePaceStrategy {
   }
 
   @override
-  String calculatePace(
-      {required double distance,
-      required int hours,
-      required int minutes,
-      required int seconds}) {
-    // TODO: implement calculatePace
-    throw UnimplementedError();
+  String? calculatePace({
+    required double distance,
+    required int hours,
+    required int minutes,
+    required int seconds,
+  }) {
+    try {
+      final totalSeconds = hours * 3600 + minutes * 60 + seconds;
+      final paceInSeconds = (totalSeconds / distance).round();
+
+      final paceMinutes = paceInSeconds ~/ 60;
+      final paceSeconds = paceInSeconds % 60;
+
+      String two(int n) => n.toString().padLeft(2, '0');
+      final formatted = '${two(paceMinutes)}:${two(paceSeconds)}';
+
+      return 'Темп: $formatted мин/км';
+    } catch (e) {
+      debugPrint('Ошибка расчета темпа: $e');
+      return 'Ошибка';
+    }
   }
 }
 
