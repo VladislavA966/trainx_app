@@ -7,8 +7,8 @@ import 'package:trainx_app/features/widgets/app_picker_strategy/picker_config.da
 import 'package:trainx_app/generated/l10n.dart';
 import '../recources/dimensions.dart';
 
-mixin AppModal {
-  Future<dynamic> showMaterialModal(
+abstract class AppModal {
+  static Future<dynamic> showMaterialModal(
     BuildContext context, {
     required Widget Function(BuildContext context) builder,
     ShapeBorder? shape,
@@ -27,7 +27,7 @@ mixin AppModal {
     );
   }
 
-  void showEnumSelectModal<T extends ParamsWorkoutType>(
+  static void showEnumSelectModal<T extends ParamsWorkoutType>(
     BuildContext context, {
     required List<T> values,
     required void Function(T value) onSelect,
@@ -86,7 +86,7 @@ mixin AppModal {
     );
   }
 
-  void showListSelectModal<T>(
+  static void showListSelectModal<T>(
     BuildContext context, {
     required List<T> values,
     required String Function(T item) titleBuilder,
@@ -147,7 +147,7 @@ mixin AppModal {
     );
   }
 
-  void showCustomPicker(
+  static void showCustomPicker(
     BuildContext context, {
     required PickerConfig config,
     VoidCallback? onCancel,

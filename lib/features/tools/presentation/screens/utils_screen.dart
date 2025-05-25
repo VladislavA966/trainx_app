@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
 import 'package:trainx_app/core/router/app_router_config.gr.dart';
 import 'package:trainx_app/core/utils/app_modal.dart';
-import 'package:trainx_app/features/utils/domain/entity/util_card_data.dart';
+import 'package:trainx_app/features/tools/domain/entity/util_card_data.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
 import 'package:trainx_app/generated/l10n.dart';
 
@@ -22,23 +22,23 @@ class AllUtilsScreen extends StatefulWidget {
   State<AllUtilsScreen> createState() => _AllUtilsScreenState();
 }
 
-class _AllUtilsScreenState extends State<AllUtilsScreen> with AppModal {
+class _AllUtilsScreenState extends State<AllUtilsScreen> {
   late final cardsData = [
     UtilsCardData(
       title: 'Зоны интенсивности',
       icon: Icons.favorite,
       onTap: _onPulseZonesTap,
     ),
-    UtilsCardData(
-      title: S.of(context).metronome,
-      icon: Icons.access_alarm,
-      onTap: (_) => context.pushRoute(const MetronomeRoute()),
-    ),
+    // UtilsCardData(
+    //   title: S.of(context).metronome,
+    //   icon: Icons.access_alarm,
+    //   onTap: (_) => context.pushRoute(const MetronomeRoute()),
+    // ),
     UtilsCardData(
       title: S.of(context).calcDistPeace,
       icon: Icons.calculate,
       onTap: (_) {
-        showEnumSelectModal(
+        AppModal.showEnumSelectModal(
           context,
           title: S.of(context).selectSportType,
           values: WorkoutType.values,
@@ -47,15 +47,15 @@ class _AllUtilsScreenState extends State<AllUtilsScreen> with AppModal {
         );
       },
     ),
-    UtilsCardData(
-      title: S.of(context).calcPeaceSpeed,
-      icon: Icons.speed,
-      onTap: (_) => context.pushRoute(const PaceSpeedRoute()),
-    ),
+    // UtilsCardData(
+    //   title: S.of(context).calcPeaceSpeed,
+    //   icon: Icons.speed,
+    //   onTap: (_) => context.pushRoute(const PaceSpeedRoute()),
+    // ),
     UtilsCardData(
       title: 'AI ${S.of(context).coach}',
       icon: Icons.smart_toy,
-      onTap: (_) {},
+      onTap: (_) => context.pushRoute(const ChatRoute()),
     ),
   ];
 
@@ -85,7 +85,7 @@ class _AllUtilsScreenState extends State<AllUtilsScreen> with AppModal {
   }
 
   void _onPulseZonesTap(BuildContext context) {
-    showEnumSelectModal<WorkoutType>(
+    AppModal.showEnumSelectModal<WorkoutType>(
       context,
       values: WorkoutType.values,
       title: S.of(context).selectSportType,

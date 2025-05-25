@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trainx_app/core/utils/app_modal.dart';
 import 'package:trainx_app/features/widgets/app_picker_strategy/picker_config.dart';
 
-class PacePickerConfig extends PickerConfig {
+final class PacePickerConfig extends PickerConfig {
   final int selectedMinutes;
   final int selectedSeconds;
   final ValueChanged<int> onMinutesChanged;

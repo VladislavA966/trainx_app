@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trainx_app/core/utils/app_modal.dart';
 import 'package:trainx_app/features/widgets/app_picker_strategy/picker_config.dart';
 
-class SportTimePickerConfig implements PickerConfig {
+final class SportTimePickerConfig implements PickerConfig {
   final int selectedHours;
   final int selectedMinutes;
   final int selectedSeconds;

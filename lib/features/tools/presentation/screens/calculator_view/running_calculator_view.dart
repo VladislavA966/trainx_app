@@ -1,41 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:trainx_app/core/utils/app_modal.dart';
-import 'package:trainx_app/features/utils/domain/entity/labled_value.dart';
-import 'package:trainx_app/features/utils/presentation/other/calculate_pace_strategy.dart';
-import 'package:trainx_app/features/utils/presentation/widgets/calculated_box_widget.dart';
-import 'package:trainx_app/features/widgets/app_picker_strategy/running_pace_picker.dart';
+import 'package:trainx_app/features/tools/presentation/other/bike_strategy.dart';
+import 'package:trainx_app/features/tools/presentation/other/calculate_pace_strategy.dart';
+import 'package:trainx_app/features/tools/presentation/other/running_strategy.dart';
+import 'package:trainx_app/features/tools/presentation/other/swimming_strategy.dart';
+import 'package:trainx_app/features/tools/presentation/screens/calculator_view/state/calculator_state.dart';
+import 'package:trainx_app/features/tools/presentation/widgets/calculated_box_widget.dart';
 import 'package:trainx_app/features/widgets/app_picker_strategy/sport_time_picker.dart';
 import 'package:trainx_app/features/widgets/app_text_form_field.dart';
+import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
 import 'package:trainx_app/features/workouts/presentation/screens/workout_types_screen.dart';
 import 'package:trainx_app/generated/l10n.dart';
-
 import 'package:trainx_app/core/recources/export.dart';
 
-part 'state/calculator_state.dart';
-
-class RunCalculatorView extends StatefulWidget {
-  const RunCalculatorView({super.key});
+class CalculatorView extends StatefulWidget {
+  final WorkoutType type;
+  const CalculatorView({super.key, required this.type});
 
   @override
-  State<RunCalculatorView> createState() => _RunCalculatorViewState();
+  State<CalculatorView> createState() => _CalculatorViewState();
 }
 
-class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
+class _CalculatorViewState extends State<CalculatorView> {
   late final CalculatePaceStrategy _strategy;
-
-  static const distances = [
-    LabeledValue(value: 5.0, title: '5 км'),
-    LabeledValue(value: 10.0, title: '10 км'),
-    LabeledValue(value: 21.1, title: '21.1 км'),
-    LabeledValue(value: 42.195, title: '42.195 км'),
-  ];
-
-  final _calculatorState = _CalculatorState();
+  final _calculatorState = CalculatorState();
 
   @override
   void initState() {
     super.initState();
-    _strategy = RunningPaceStrategy();
+    _strategy = _getStrategyByType(widget.type);
     _calculatorState.timeController.addListener(_onTimeChanged);
     _calculatorState.paceController.addListener(_onPaceChanged);
   }
@@ -46,6 +39,17 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
     _calculatorState.paceController.removeListener(_onPaceChanged);
     _calculatorState.dispose();
     super.dispose();
+  }
+
+  CalculatePaceStrategy _getStrategyByType(WorkoutType type) {
+    switch (type) {
+      case WorkoutType.running:
+        return RunningPaceStrategy();
+      case WorkoutType.cycling:
+        return BikePaceStrategy();
+      case WorkoutType.swimming:
+        return SwimmingPaceStrategy();
+    }
   }
 
   void _onTimeChanged() {
@@ -65,13 +69,26 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppTextFormField(
-          labelText: S.of(context).select_distance,
-          controller: _calculatorState.distanceController,
-          readOnly: true,
-          onSuffixPressed: _onDistanceSuffixPressed,
-          onTap: _showDistanceModal,
-        ),
+        if (!_strategy.isManualDistanceInput)
+          AppTextFormField(
+            labelText: S.of(context).select_distance,
+            controller: _calculatorState.distanceController,
+            readOnly: true,
+            onSuffixPressed: _onDistanceSuffixPressed,
+            onTap: _showDistanceModal,
+          )
+        else
+          AppTextFormField(
+            labelText: S.of(context).select_distance,
+            controller: _calculatorState.distanceController,
+            onSuffixPressed: _onDistanceSuffixPressed,
+            keyboardType: TextInputType.number,
+            onChanged: (value) {
+              final parsed = double.tryParse(value.replaceAll(',', '.'));
+              _calculatorState.selectedDistance.value = parsed;
+              _calculatorState.calculatedValue.value = '';
+            },
+          ),
         const SizedBox(height: Dimensions.unit2),
         Text(S.of(context).common_input_question),
         ValueListenableBuilder(
@@ -86,7 +103,7 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
                 onSelected: (_) => _onInputTypeChanged(true),
               ),
               ChoiceChip(
-                label: Text(S.of(context).common_pace),
+                label: Text(_strategy.peaceCheapLabelText),
                 selected: !value,
                 selectedColor: Theme.of(context).primaryColor,
                 onSelected: (_) => _onInputTypeChanged(false),
@@ -106,7 +123,7 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
                 : _calculatorState.paceController,
             labelText: isTimeInput
                 ? S.of(context).input_time_hh_mm_ss
-                : S.of(context).input_running_pace,
+                : _strategy.secondFieldLabel,
           ),
         ),
         const SizedBox(height: Dimensions.unit2_5),
@@ -135,21 +152,19 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
   }
 
   void _showDistanceModal() {
-    showListSelectModal<LabeledValue>(
-      context,
-      title: S.of(context).select_distance,
-      values: distances,
-      titleBuilder: (item) => item.title,
+    _strategy.selectDistance(
+      context: context,
+      controller: _calculatorState.distanceController,
       onSelect: (value) {
-        _calculatorState.selectedDistance.value = value.value;
-        _calculatorState.distanceController.text = value.title;
+        _calculatorState.selectedDistance.value = value;
+        _calculatorState.distanceController.text = value.toString();
         _calculatorState.calculatedValue.value = '';
       },
     );
   }
 
   void _showSportTimePicker() {
-    showCustomPicker(
+    AppModal.showCustomPicker(
       context,
       config: SportTimePickerConfig(
         selectedHours: _calculatorState.timeHours.value,
@@ -171,20 +186,10 @@ class _RunCalculatorViewState extends State<RunCalculatorView> with AppModal {
   }
 
   void _showPacePicker() {
-    showCustomPicker(
-      context,
-      config: PacePickerConfig(
-          selectedMinutes: _calculatorState.paceMinutes.value,
-          selectedSeconds: _calculatorState.paceSeconds.value,
-          onMinutesChanged: (m) => _calculatorState.paceMinutes.value = m,
-          onSecondsChanged: (s) => _calculatorState.paceSeconds.value = s,
-          onDone: () {
-            final m =
-                _calculatorState.paceMinutes.value.toString().padLeft(2, '0');
-            final s =
-                _calculatorState.paceSeconds.value.toString().padLeft(2, '0');
-            _calculatorState.paceController.text = '$m:$s';
-          }),
+    _strategy.selectPace(
+      context: context,
+      controller: _calculatorState.paceController,
+      calculatorState: _calculatorState,
     );
   }
 

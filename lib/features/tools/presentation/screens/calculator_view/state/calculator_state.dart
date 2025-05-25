@@ -1,6 +1,6 @@
-part of 'package:trainx_app/features/utils/presentation/screens/running_calculator_view/running_calculator_view.dart';
+import 'package:flutter/material.dart';
 
-class _CalculatorState {
+class CalculatorState {
   final selectedDistance = ValueNotifier<double?>(null);
   final entireTime = ValueNotifier<bool>(true);
   final calculatedValue = ValueNotifier<String>('');
@@ -12,7 +12,6 @@ class _CalculatorState {
   final timeController = TextEditingController();
   final paceController = TextEditingController();
   final distanceController = TextEditingController();
-  final calculatorState = _CalculatorState();
 
   void dispose() {
     selectedDistance.dispose();

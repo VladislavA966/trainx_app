@@ -69,7 +69,10 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(
                   page: DistancePaceCalculatorRoute.page,
                   path: 'distance-pace-calculator',
-
+                ),
+                AutoRoute(
+                  page: ChatRoute.page,
+                  path: 'ai_chat',
                 ),
               ],
             ),
