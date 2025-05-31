@@ -35,6 +35,7 @@ class _TrainXAppState extends State<TrainXApp> {
         BlocProvider.value(value: _authCubit),
       ],
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         theme: AppTheme.darkTheme,
         localizationsDelegates: [
           S.delegate,

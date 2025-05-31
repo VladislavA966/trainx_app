@@ -5,7 +5,7 @@ import 'package:trainx_app/core/recources/dimensions.dart';
 import 'package:trainx_app/core/router/app_router_config.gr.dart';
 import 'package:trainx_app/features/widgets/app_base_card.dart';
 
-import '../workouts/domain/entity/workout_type.dart';
+import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
 
 @RoutePage()
 class AllExercisesScreen extends StatefulWidget {
@@ -28,10 +28,12 @@ class _AllExercisesScreenState extends State<AllExercisesScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Упражнения'),
         bottom: TabBar(
+          unselectedLabelColor: theme.canvasColor,
           controller: _tabController,
           tabs: types
               .map(
@@ -46,9 +48,15 @@ class _AllExercisesScreenState extends State<AllExercisesScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          ExercisesList(exercises: ['Плавание', 'Велосипед', 'Бег']),
-          ExercisesList(exercises: ['Плавание', 'Велосипед', 'Бег']),
-          ExercisesList(exercises: ['Плавание', 'Велосипед', 'Бег']),
+          ExercisesList(
+            exercises: ['Плавание', 'Велосипед', 'Бег'],
+          ),
+          ExercisesList(
+            exercises: ['Плавание', 'Велосипед', 'Бег'],
+          ),
+          ExercisesList(
+            exercises: ['Плавание', 'Велосипед', 'Бег'],
+          ),
         ],
       ),
     );
