@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 import 'package:trainx_app/features/auth/presentation/cubit/auth_cubit.dart';
 
@@ -7,11 +8,9 @@ import 'app_router_config.gr.dart';
 @AutoRouterConfig(replaceInRouteName: 'Page|Screen,Route')
 class AppRouter extends RootStackRouter {
   final AuthCubit authCubit;
-  late final AuthGuard authGuard;
-  AppRouter(this.authCubit) {
-    authGuard = AuthGuard(authCubit);
-  }
+  AppRouter(this.authCubit);
 
+  late final authGuard = AuthGuard(authCubit);
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
@@ -24,7 +23,7 @@ class AppRouter extends RootStackRouter {
               children: [
                 AutoRoute(
                   page: WorkoutTypesRoute.page,
-                  path: 'workout-types',
+                  path: '',
                 ),
                 AutoRoute(
                   page: AllWorkoutsRoute.page,
@@ -46,25 +45,17 @@ class AppRouter extends RootStackRouter {
               children: [
                 AutoRoute(
                   page: AllExercisesRoute.page,
-                  path: 'all-exercises',
+                  path: '',
                 ),
               ],
             ),
             AutoRoute(
-              page: UtilsRoute.page,
-              path: 'utils',
+              page: ToolsRoute.page,
+              path: 'tools',
               children: [
                 AutoRoute(
-                  page: AllUtilsRoute.page,
-                  path: 'all-utils',
-                ),
-                AutoRoute(
-                  page: MetronomeRoute.page,
-                  path: 'metronome',
-                ),
-                AutoRoute(
-                  page: PaceSpeedRoute.page,
-                  path: 'pace-speed_calculator',
+                  page: AllToolsRoute.page,
+                  path: '',
                 ),
                 AutoRoute(
                   page: DistancePaceCalculatorRoute.page,
@@ -75,10 +66,9 @@ class AppRouter extends RootStackRouter {
             AutoRoute(
               page: ProfileRoute.page,
               path: 'profile',
-              guards: [authGuard],
               children: [
                 AutoRoute(
-                  page: ProfileRoute.page,
+                  page: UserRoute.page,
                   path: '',
                 ),
               ],
@@ -102,20 +92,6 @@ class AppRouter extends RootStackRouter {
           path: '/ai_chat',
         ),
       ];
-
-  // RouteMatch? onNavigate(
-  //     RouteMatch match, StackRouter router, BuildContext context) {
-  //   final isAuthenticated = authCubit.state is AuthLoaded;
-  //   final isOnLoginPage = router.current.name == LogInRoute.name;
-  //   final isOnProfilePage = router.current.name == ProfileRoute.name;
-  //
-  //   if (isAuthenticated && !isOnProfilePage) {
-  //     return const ProfileRoute().match(context);
-  //   } else if (!isAuthenticated && !isOnLoginPage) {
-  //     return const LogInRoute().match(context);
-  //   }
-  //   return null;
-  // }
 }
 
 class AuthGuard extends AutoRouteGuard {
@@ -125,16 +101,15 @@ class AuthGuard extends AutoRouteGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    final isAuthenticated = authCubit.state is AuthLoaded;
-    final isOnLoginPage = router.current.name == LogInRoute.name;
-    final isOnProfilePage = router.current.name == ProfileRoute.name;
-
-    if (isAuthenticated && !isOnProfilePage) {
-      resolver.redirectUntil(const ProfileRoute());
-    } else if (!isAuthenticated && !isOnLoginPage) {
-      resolver.redirectUntil(const LogInRoute());
-    } else {
-      resolver.next();
+    try {
+      final isAuthenticated = authCubit.state is AuthLoaded;
+      if (isAuthenticated) {
+        resolver.next();
+      } else {
+        resolver.redirectUntil(const LogInRoute());
+      }
+    } catch (e, st) {
+      debugPrint('[AuthGuard] error: $e\n$st');
     }
   }
 }

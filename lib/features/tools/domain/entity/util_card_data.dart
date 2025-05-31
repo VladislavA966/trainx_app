@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class UtilsCardData {
+class ToolsCardData {
   final String title;
   final IconData icon;
   final Function(BuildContext) onTap;
 
-  const UtilsCardData({
+  const ToolsCardData({
     required this.title,
     required this.icon,
     required this.onTap,

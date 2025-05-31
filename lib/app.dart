@@ -18,13 +18,14 @@ class TrainXApp extends StatefulWidget {
 
 class _TrainXAppState extends State<TrainXApp> {
   late final AppRouter _appRouter;
-  late final _authCubit = inject<AuthCubit>();
+  late final AuthCubit _authCubit;
 
   @override
   void initState() {
     super.initState();
+    _authCubit = inject<AuthCubit>();
     _authCubit.checkUserAuth();
-    _appRouter = AppRouter(inject());
+    _appRouter = AppRouter(_authCubit);
   }
 
   @override

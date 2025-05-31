@@ -7,9 +7,8 @@ import 'package:trainx_app/features/widgets/app_picker_strategy/speed_picker_con
 
 class BikePaceStrategy implements CalculatePaceStrategy {
   static const distances = [
-    LabeledValue(value: 5.0, title: '5 км'),
-    LabeledValue(value: 10.0, title: '10 км'),
     LabeledValue(value: 20.0, title: '20 км'),
+    LabeledValue(value: 25.0, title: '25 км'),
     LabeledValue(value: 40.0, title: '40 км'),
     LabeledValue(value: 90.0, title: '90 км'),
     LabeledValue(value: 180.0, title: '180 км'),

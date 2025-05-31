@@ -6,8 +6,8 @@ import 'package:trainx_app/features/workouts/presentation/screens/workout_types_
 import 'package:trainx_app/features/auth/presentation/cubit/auth_cubit.dart';
 
 @RoutePage()
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class UserScreen extends StatelessWidget {
+  const UserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -42,6 +42,7 @@ class AuthCubit extends Cubit<AuthState> {
       (failure) => emit(AuthError(message: failure.message)),
       (_) => emit(AuthUnauthorized()),
     );
+    checkUserAuth();
   }
 
   Future<void> checkUserAuth() async {

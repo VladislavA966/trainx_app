@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
       routes: [
         WorkoutTypesRoute(),
         AllExercisesRoute(),
-        AllUtilsRoute(),
+        AllToolsRoute(),
         ProfileRoute(),
       ],
       bottomNavigationBuilder: (context, tabsRouter) =>
@@ -61,15 +61,19 @@ class _HomePageState extends State<HomePage> {
 
   void _onTap(int index, AuthState state, TabsRouter tabsRouter) {
     if (index == 3 && state is AuthUnauthorized) {
-      context.router.push(const LogInRoute()).then(
-        (result) {
-          if (result != null) {
-            tabsRouter.setActiveIndex(3);
-          }
-        },
-      );
+      context.router.push(const LogInRoute()).then((result) {
+        if (result != null) {
+          tabsRouter.setActiveIndex(3);
+        }
+      });
     } else {
-      tabsRouter.setActiveIndex(index);
+      if (index == tabsRouter.activeIndex) {
+        tabsRouter
+            .innerRouterOf<StackRouter>(tabsRouter.current.name)
+            ?.popUntilRoot();
+      } else {
+        tabsRouter.setActiveIndex(index);
+      }
     }
   }
 }

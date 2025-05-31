@@ -10,21 +10,21 @@ import 'package:trainx_app/generated/l10n.dart';
 import '../widgets/utils_card_widget.dart';
 
 @RoutePage()
-class UtilsScreen extends AutoRouter {
-  const UtilsScreen({super.key});
+class ToolsScreen extends AutoRouter {
+  const ToolsScreen({super.key});
 }
 
 @RoutePage()
-class AllUtilsScreen extends StatefulWidget {
-  const AllUtilsScreen({super.key});
+class AllToolsScreen extends StatefulWidget {
+  const AllToolsScreen({super.key});
 
   @override
-  State<AllUtilsScreen> createState() => _AllUtilsScreenState();
+  State<AllToolsScreen> createState() => _AllToolsScreenState();
 }
 
-class _AllUtilsScreenState extends State<AllUtilsScreen> {
+class _AllToolsScreenState extends State<AllToolsScreen> {
   late final cardsData = [
-    UtilsCardData(
+    ToolsCardData(
       title: 'Зоны интенсивности',
       icon: Icons.favorite,
       onTap: _onPulseZonesTap,
@@ -34,7 +34,7 @@ class _AllUtilsScreenState extends State<AllUtilsScreen> {
     //   icon: Icons.access_alarm,
     //   onTap: (_) => context.pushRoute(const MetronomeRoute()),
     // ),
-    UtilsCardData(
+    ToolsCardData(
       title: S.of(context).calcDistPeace,
       icon: Icons.calculate,
       onTap: (_) {
@@ -52,7 +52,7 @@ class _AllUtilsScreenState extends State<AllUtilsScreen> {
     //   icon: Icons.speed,
     //   onTap: (_) => context.pushRoute(const PaceSpeedRoute()),
     // ),
-    UtilsCardData(
+    ToolsCardData(
       title: 'AI ${S.of(context).coach}',
       icon: Icons.smart_toy,
       onTap: (_) => context.pushRoute(const ChatRoute()),
