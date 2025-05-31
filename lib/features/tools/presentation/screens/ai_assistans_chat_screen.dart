@@ -1,8 +1,8 @@
 import 'dart:convert';
-
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:trainx_app/core/recources/app_colors.dart';
 
 const _apiKey =
     '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';
@@ -52,7 +52,7 @@ class ChatController extends ChangeNotifier {
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        "model": "gpt-3.5-turbo",
+        "model": "gpt-4o-mini",
         "messages": [
           {"role": "system", "content": "$basePrompt\n$userProfileInfo"},
           ..._messages.map((m) => {
@@ -85,8 +85,9 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     chat = ChatController(
-      basePrompt: "Ты AI помощник по циклическим видам спорта...",
-      userProfileInfo: "Возраст: 29, Вид спорта: бег, Цель: 10 км",
+      basePrompt:
+          "Ты — AI-помощник по циклическим видам спорта, встроенный в приложение TrainX. В приложении есть калькуляторы, тренировочные планы и большая база упражнений для плавания, бега и велоспорта. Ты опираешься на спортивную физиологию и научный подход. Отвечай кратко, по делу — в 2–3 предложения. Если не хватает данных для точного ответа, задай уточняющий вопрос.",
+      userProfileInfo: "",
     );
   }
 
@@ -94,62 +95,70 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("AI Ассистент")),
-      body: Column(
-        children: [
-          Expanded(
-            child: AnimatedBuilder(
-              animation: chat,
-              builder: (context, _) => ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: chat.messages.length,
-                itemBuilder: (_, i) {
-                  final msg = chat.messages[i];
-                  return Align(
-                    alignment: msg.sender == ChatSender.user
-                        ? Alignment.centerRight
-                        : Alignment.centerLeft,
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      margin: const EdgeInsets.symmetric(vertical: 4),
-                      decoration: BoxDecoration(
-                        color: msg.sender == ChatSender.user
-                            ? Colors.blue.shade100
-                            : Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(12),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: AnimatedBuilder(
+                animation: chat,
+                builder: (context, _) => ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: chat.messages.length,
+                  itemBuilder: (_, i) {
+                    final msg = chat.messages[i];
+                    return Align(
+                      alignment: msg.sender == ChatSender.user
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        decoration: BoxDecoration(
+                          color: msg.sender == ChatSender.user
+                              ? AppColors.primary
+                              : AppColors.greyLight,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          msg.text,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(color: AppColors.black),
+                        ),
                       ),
-                      child: Text(msg.text),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-          if (chat.isLoading)
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(),
+            if (chat.isLoading)
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CircularProgressIndicator(),
+              ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(controller: _controller),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.send),
+                    onPressed: () async {
+                      final text = _controller.text.trim();
+                      if (text.isNotEmpty) {
+                        _controller.clear();
+                        await chat.sendMessage(text);
+                      }
+                    },
+                  )
+                ],
+              ),
             ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(controller: _controller),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: () async {
-                    final text = _controller.text.trim();
-                    if (text.isNotEmpty) {
-                      _controller.clear();
-                      await chat.sendMessage(text);
-                    }
-                  },
-                )
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

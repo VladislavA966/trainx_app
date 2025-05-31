@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="trainx_app"
+        android:label="TrainX"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

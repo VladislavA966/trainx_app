@@ -70,10 +70,6 @@ class AppRouter extends RootStackRouter {
                   page: DistancePaceCalculatorRoute.page,
                   path: 'distance-pace-calculator',
                 ),
-                AutoRoute(
-                  page: ChatRoute.page,
-                  path: 'ai_chat',
-                ),
               ],
             ),
             AutoRoute(
@@ -100,6 +96,10 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: ExerciseDetailsRoute.page,
           path: '/exercise-details',
+        ),
+        AutoRoute(
+          page: ChatRoute.page,
+          path: '/ai_chat',
         ),
       ];
 
