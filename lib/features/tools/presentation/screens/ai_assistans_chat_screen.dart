@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:trainx_app/core/recources/app_colors.dart';
 
-const _apiKey =
-    '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';
+final _apiKey = dotenv.env['OPENAI_API_KEY'] ?? '';
 
 enum ChatSender { user, assistant }
 

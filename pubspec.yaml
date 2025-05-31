@@ -74,6 +74,7 @@ dependencies:
   flutter_native_splash: ^2.4.6
   cached_network_image: ^3.4.1
   http: ^1.4.0
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
