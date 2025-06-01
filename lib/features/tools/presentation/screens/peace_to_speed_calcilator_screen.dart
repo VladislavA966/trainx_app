@@ -1,7 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:trainx_app/features/widgets/export.dart';
+
+import 'package:trainx_app/features/ui_kit/export.dart';
 
 @RoutePage()
 class PaceSpeedScreen extends StatefulWidget {

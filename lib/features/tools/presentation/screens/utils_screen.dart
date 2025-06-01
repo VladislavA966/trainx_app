@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
 import 'package:trainx_app/core/router/app_router_config.gr.dart';
-import 'package:trainx_app/core/utils/app_modal.dart';
 import 'package:trainx_app/features/tools/domain/entity/util_card_data.dart';
+import 'package:trainx_app/features/tools/presentation/widgets/utils_card_widget.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
 import 'package:trainx_app/generated/l10n.dart';
 
-import '../widgets/utils_card_widget.dart';
+import 'package:trainx_app/features/ui_kit/export.dart';
 
 @RoutePage()
 class ToolsScreen extends AutoRouter {

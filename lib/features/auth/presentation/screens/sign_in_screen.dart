@@ -7,7 +7,7 @@ import 'package:trainx_app/core/utils/validation_mixin.dart';
 import 'package:trainx_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:trainx_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:trainx_app/features/workouts/presentation/screens/workout_types_screen.dart';
-import 'package:trainx_app/features/widgets/export.dart';
+import 'package:trainx_app/features/ui_kit/export.dart';
 
 @RoutePage()
 class SignInScreen extends StatefulWidget {

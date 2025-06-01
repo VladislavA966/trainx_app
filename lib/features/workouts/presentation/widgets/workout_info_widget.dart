@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
-import 'package:trainx_app/features/widgets/app_base_card.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_entity.dart';
+
+import 'package:trainx_app/features/ui_kit/export.dart';
 
 class WorkoutInfoCardWidget extends StatelessWidget {
   const WorkoutInfoCardWidget({

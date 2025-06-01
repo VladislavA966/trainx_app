@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trainx_app/core/utils/app_modal.dart';
-import 'package:trainx_app/features/widgets/app_picker_strategy/picker_config.dart';
+
+import 'package:trainx_app/features/ui_kit/export.dart';
+import 'picker_config.dart';
 
 final class SpeedPickerConfig extends PickerConfig {
   final int selectedSpeed;

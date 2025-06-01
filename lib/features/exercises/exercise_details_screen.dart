@@ -2,8 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
-
-import '../widgets/app_base_card.dart';
+import 'package:trainx_app/features/ui_kit/export.dart';
 
 //TODO: Вынести локализацию
 //TODO: Полный рефакторинг

@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:trainx_app/core/di/inject.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
-import 'package:trainx_app/features/widgets/app_base_card.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_entity.dart';
 import 'package:trainx_app/features/workouts/presentation/bloc/workouts_bloc.dart';
 import 'package:trainx_app/features/workouts/presentation/widgets/workout_info_widget.dart';
 import 'package:trainx_app/generated/l10n.dart';
+
+import 'package:trainx_app/features/ui_kit/export.dart';
 
 @RoutePage()
 class WorkoutDetailsScreen extends StatefulWidget {

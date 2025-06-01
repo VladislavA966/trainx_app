@@ -1,4 +1,5 @@
-import 'package:trainx_app/core/utils/app_modal.dart';
+
+import 'package:trainx_app/features/ui_kit/app_modal.dart';
 
 abstract class PickerConfig {
   String get title;

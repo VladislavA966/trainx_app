@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
-import 'package:trainx_app/features/widgets/app_base_card.dart';
+import 'package:trainx_app/features/ui_kit/export.dart';
 
 class UtilsCardWidget extends StatelessWidget {
   final String title;

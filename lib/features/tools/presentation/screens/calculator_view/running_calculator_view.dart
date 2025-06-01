@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:trainx_app/core/utils/app_modal.dart';
 import 'package:trainx_app/features/tools/presentation/other/bike_strategy.dart';
 import 'package:trainx_app/features/tools/presentation/other/calculate_pace_strategy.dart';
 import 'package:trainx_app/features/tools/presentation/other/running_strategy.dart';
 import 'package:trainx_app/features/tools/presentation/other/swimming_strategy.dart';
 import 'package:trainx_app/features/tools/presentation/screens/calculator_view/state/calculator_state.dart';
 import 'package:trainx_app/features/tools/presentation/widgets/calculated_box_widget.dart';
-import 'package:trainx_app/features/widgets/app_picker_strategy/sport_time_picker.dart';
-import 'package:trainx_app/features/widgets/app_text_form_field.dart';
+import 'package:trainx_app/features/ui_kit/app_picker_strategy/sport_time_picker.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
 import 'package:trainx_app/features/workouts/presentation/screens/workout_types_screen.dart';
 import 'package:trainx_app/generated/l10n.dart';
 import 'package:trainx_app/core/recources/export.dart';
+import 'package:trainx_app/features/ui_kit/export.dart';
 
 class CalculatorView extends StatefulWidget {
   final WorkoutType type;

@@ -3,9 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trainx_app/core/recources/app_colors.dart';
 import 'package:trainx_app/core/utils/params_filter_type.dart';
-import 'package:trainx_app/features/widgets/app_picker_strategy/picker_config.dart';
 import 'package:trainx_app/generated/l10n.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
+
+import 'app_picker_strategy/picker_config.dart';
 
 abstract class AppModal {
   static Future<dynamic> showMaterialModal(

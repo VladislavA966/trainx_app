@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:trainx_app/core/utils/app_modal.dart';
 import 'package:trainx_app/features/tools/presentation/other/calculate_pace_strategy.dart';
 import 'package:trainx_app/features/tools/presentation/screens/calculator_view/state/calculator_state.dart';
-import 'package:trainx_app/features/widgets/app_picker_strategy/running_pace_picker.dart';
+import 'package:trainx_app/features/ui_kit/app_picker_strategy/running_pace_picker.dart';
+
+import 'package:trainx_app/features/ui_kit/export.dart';
 
 class SwimmingPaceStrategy implements CalculatePaceStrategy {
   @override

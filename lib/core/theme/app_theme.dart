@@ -12,7 +12,7 @@ class AppTheme {
       colorScheme: const ColorScheme.light(primary: AppColors.primary),
       fontFamily: 'Manrope',
       appBarTheme: AppComponentsTheme.appBarTheme,
-      textTheme: AppTypography.lightTextTheme,
+      textTheme: AppTypography.darkTextTheme,
       bottomNavigationBarTheme: AppComponentsTheme.bottomNavigationBarTheme,
       elevatedButtonTheme: AppComponentsTheme.elevatedButtonTheme,
       bottomSheetTheme: AppComponentsTheme.bottomSheetTheme,
@@ -23,7 +23,7 @@ class AppTheme {
 }
 
 class AppTypography {
-  static const TextTheme lightTextTheme = TextTheme(
+  static const TextTheme darkTextTheme = TextTheme(
     headlineLarge: TextStyle(
       fontFamily: 'Fira Sans',
       fontSize: 32,

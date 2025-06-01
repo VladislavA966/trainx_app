@@ -2,8 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:trainx_app/features/tools/presentation/screens/calculator_view/running_calculator_view.dart';
 
-import 'package:trainx_app/features/widgets/keyboard_dismiss_wrapper.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
+
+import 'package:trainx_app/features/ui_kit/export.dart';
 
 @RoutePage()
 class DistancePaceCalculatorScreen extends StatelessWidget {

@@ -3,8 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:trainx_app/core/recources/dimensions.dart';
 import 'package:trainx_app/core/router/app_router_config.gr.dart';
-import 'package:trainx_app/features/widgets/app_base_card.dart';
-
+import 'package:trainx_app/features/ui_kit/app_base_card.dart';
 import 'package:trainx_app/features/workouts/domain/entity/workout_type.dart';
 
 @RoutePage()
